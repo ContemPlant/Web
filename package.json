@@ -1,0 +1,23 @@
+{
+  "name": "gello-world",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "react-scripts": "1.0.10"
+  },
+  "dependencies": {
+    "antd": "^2.11.2",
+    "apollo-fetch": "^0.7.0",
+    "apollo-link-context": "^1.0.8",
+    "react": "^15.6.1",
+    "react-apollo": "^1.4.3",
+    "react-dom": "^15.6.1",
+    "react-router-dom": "^4.2.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
