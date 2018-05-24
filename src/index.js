@@ -2,11 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient, createNetworkInterface } from 'react-apollo';
+import 'semantic-ui-css/semantic.min.css';
 
 
-import 'antd/dist/antd.css';
-
-import Routes from './routes';
+import Routes from './components';
 
 const networkInterface = createNetworkInterface({
   uri: 'http://167.99.240.197:8000/graphql',
@@ -17,7 +16,9 @@ const client = new ApolloClient({
 
 const App = () => (
   <ApolloProvider client={client}>
-    <Routes />
+    <div className="ui container">
+      <Routes />
+    </div>
   </ApolloProvider>
 );
 

@@ -1,0 +1,25 @@
+.HomePage {
+  text-align: center;
+}
+
+.HomePage-logo {
+  height: 100px;
+}
+
+.HomePage-header {
+  background-color: #eee;
+  height: 200px;
+  padding: 10px;
+  color: green;
+}
+
+.HomePage-title {
+  // font-family: 'Indie Flower', cursive;
+  font-family: 'Pacifico', cursive;
+  //font-family: 'Kavivanar', cursive;
+  font-size: 3em;
+}
+
+.HomePage-intro {
+  font-size: large;
+}

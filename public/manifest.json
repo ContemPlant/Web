@@ -1,9 +1,9 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "ContemPlant",
+  "name": "Cyber-Physical-Systems - ContemPlant",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "logo.ico",
       "sizes": "192x192",
       "type": "image/png"
     }
