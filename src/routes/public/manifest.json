@@ -1,9 +1,9 @@
 {
   "short_name": "ContemPlant",
-  "name": "Cyber-Physical-Systems - ContemPlant",
+  "name": "Cyber Physical Systems - ContemPlant",
   "icons": [
     {
-      "src": "logo.ico",
+      "src": "favicon.ico",
       "sizes": "192x192",
       "type": "image/png"
     }

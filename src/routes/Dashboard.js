@@ -1,10 +1,9 @@
 import React from 'react';
 import {createApolloFetch} from 'apollo-fetch';
 import {Line} from 'react-chartjs-2';
-import {ToastContainer,toast} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Icon, Input, Segment, Button, Divider } from 'semantic-ui-react'
 
-import LoginPage from './LoginPage';
+import Login from './Login';
 import Plant from './Plant';
 
 // Connecting to Graphql Endpoint
@@ -20,12 +19,16 @@ export default class Dashboard extends React.Component {
         // Preparing state
             super();
             this.state = {
+                show : false,
                 jwt: sessionStorage.jwt,
                 email: sessionStorage.email,
+                username: sessionStorage.username,
+                plantName: "",
                 plants: [],
                 tempOpt: "",
                 humidityOpt: "",
-                radOpt: ""
+                radOpt: "",
+                loudOpt: ""
 
             };
 
@@ -40,7 +43,7 @@ export default class Dashboard extends React.Component {
 
                 // Preparing the query for gql
 
-                var plantQuery = `{plants{id temperature_opt humidity_opt radiation_opt}}`;
+                var plantQuery = `{plants{name id temperature_opt humidity_opt radiation_opt}}`;
 
                 fetch.use(({
                     request,
@@ -58,7 +61,6 @@ export default class Dashboard extends React.Component {
                 fetch({
                     query: plantQuery,
                 }).then(res => {
-                    console.log(res)
                     this.setState({
                         //             jwt: res.data.login.token,
                         plants: res.data.plants
@@ -79,10 +81,17 @@ export default class Dashboard extends React.Component {
             });
         }
 
+    //show : true -> show creation screen
+         onShow = (e) => {
+
+            this.setState({
+                show : !this.state.show
+            });
+        }
+
 
     //Function to crate a plant and persist on DB
         onCreatePlant = (e) => {
-
                 fetch.use(({
                     request,
                     options
@@ -99,6 +108,7 @@ export default class Dashboard extends React.Component {
 
                 var createPlant = `mutation {
  createPlant(
+   name: "` + this.state.plantName + `"
 
    temperature_opt:` + this.state.tempOpt + `
 
@@ -108,13 +118,13 @@ export default class Dashboard extends React.Component {
 
    humidity_weight: 1
 
-   water_opt:1
-
-   water_weight: 0
-
    radiation_opt: ` + this.state.radOpt + `
 
-   radiation_weight: 0
+   radiation_weight: 1
+
+   loudness_opt: `+ this.state.loudOpt + `
+
+   loudness_weight: 1
  ) {
     id
  }
@@ -131,40 +141,61 @@ export default class Dashboard extends React.Component {
             } catch (e) {
                 console.log(e.message);
             }
-
+            this.onShow();
         }
 
         render() {
                 // If not logged in -> redirect to login page
             if (this.state.jwt === "") {
-                alert("Melde dich zuerst an!")
-                return ( < LoginPage / > )
+                alert("Please login first!")
+                return ( < Login / > )
               } else {
 
                 return (
                 <center>
-                    <div>
-                        <h1>Hallo {this.state.email}</h1>
+                    <div style={{width: 600}}>
+                        <br/>
+                        <br/>
+                        <Segment padded>
+                        <h1>Hello {this.state.username}!</h1>
                         <br></br>
-                        <h2> Deine Pflanzen: </h2>
+                        <h2> Your plants: </h2>
                         <ul>
-                            {this.state.plants.map((plant) => {return <Plant plant={plant} key={plant.id}/>})}
+                            {this.state.plants.map((plant) => {return <Plant plant={plant} history={this.props.history} jwt={this.state.jwt} key={plant.id}/>})}
                         </ul>
+                        </Segment>
                     </div>
                     <br></br>
-                    <label>Optimale Temperatur:</label>
-                    <br></br>
-                    <input name = "tempOpt" onChange={ e=> this.onChange(e) } value = { this.state.tempOpt } placeholder="Temp. Opt."></input>
-                    <br></br>
-                    <label>Optmimale Luftfeuchtigkeit:</label>
-                    <br></br>
-                    <input name = "humidityOpt" onChange={ e=> this.onChange(e) } value = { this.state.humidityOpt } placeholder="Temp. Opt."></input>
-                    <br></br>
-                    <label>Optimale Helligkeit:</label>
-                    <br></br>
-                    <input name = "radOpt" onChange={ e=> this.onChange(e) } value = { this.state.radOpt } placeholder="Temp. Opt."></input>
-                    <br></br>
-                    <button onClick={ e => this.onCreatePlant(e)}>Erstelle eine Pflanze</button>
+                    { this.state.show ? (
+                    <div>
+                        <label>Plant name:</label>
+                        <br></br>
+                        <Input name = "plantName" onChange={ e=> this.onChange(e) } value = { this.state.plantName } placeholder="Plant name"/>
+                        <br></br>
+                        <label>Optimal temperature:</label>
+                        <br></br>
+                        <Input name = "tempOpt" onChange={ e=> this.onChange(e) } value = { this.state.tempOpt } placeholder="Temperature Opt."/>
+                        <br></br>
+                        <label>Optimal humidity:</label>
+                        <br></br>
+                        <Input name = "humidityOpt" onChange={ e=> this.onChange(e) } value = { this.state.humidityOpt } placeholder="Humidity Opt."/>
+                        <br></br>
+                        <label>Optimal brightness:</label>
+                        <br></br>
+                        <Input name = "radOpt" onChange={ e=> this.onChange(e) } value = { this.state.radOpt } placeholder="Radiation Opt."/>
+                        <br></br>
+                        <label>Optimal loudness:</label>
+                        <br></br>
+                        <Input name = "loudOpt" onChange={ e=> this.onChange(e) } value = { this.state.loudOpt } placeholder="Loudness Opt."/>
+                        <br></br>
+                        <br></br>
+                        <Button primary onClick={ e => this.onCreatePlant(e)}>Submit your new plant!</Button>
+                    </div>
+                        ) : (
+                        <Button primary onClick={ e => this.onShow(e)}>Create a new plant!</Button>
+                        )}
+                        <br></br>
+                        <br></br>
                 </center>
                 );}
             }

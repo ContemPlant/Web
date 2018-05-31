@@ -1,0 +1,25 @@
+
+
+.HomePage-logo {
+  height: 100px;
+}
+
+.HomePage-header h1 {
+  color: #2bbf2b;
+}
+
+.HomePage-header span {
+  color: orange;
+}
+
+.HomePage-header {
+  //background-color: #eee;
+  height: 200px;
+  padding: 10px;
+}
+
+
+.HomePage-title {
+  font-family: 'Pacifico', cursive;
+  font-size: 3em;
+}

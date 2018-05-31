@@ -1,5 +1,5 @@
 {
-  "name": "gello-world",
+  "name": "T.O.B.I.A.S.",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
@@ -9,6 +9,7 @@
     "antd": "^2.11.2",
     "apollo-fetch": "^0.7.0",
     "apollo-link-context": "^1.0.8",
+    "apollo-link-ws": "^1.0.8",
     "chart.js": "^2.7.2",
     "react": "^15.6.1",
     "react-apollo": "^1.4.3",
@@ -16,9 +17,8 @@
     "react-dom": "^15.6.1",
     "react-router-dom": "^4.2.2",
     "react-toastify": "^4.0.1",
-    "semantic-ui-css": "^2.3.1",
-    "semantic-ui-react": "^0.80.0",
-    "validator": "^10.2.0"
+    "semantic-ui-react": "^0.80.2",
+    "subscriptions-transport-ws": "^0.9.9"
   },
   "scripts": {
     "start": "react-scripts start",
