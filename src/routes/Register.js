@@ -17,7 +17,7 @@ class Register extends React.Component {
         password2: ''
     }
 
-  //Changing state
+  //Changing state on user input
     onChange = (e) => {
 
         this.setState({

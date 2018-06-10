@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  createApolloFetch
-} from 'apollo-fetch';
+import { createApolloFetch } from 'apollo-fetch';
 import { Icon, Input, Segment, Button, Divider, Label } from 'semantic-ui-react'
 
 // Connecting to Graphql Endpoint
@@ -14,20 +12,20 @@ const fetch = createApolloFetch({
 // React Login-component
 export default class Login extends React.Component {
 
+// Module state
   state = {
     email: '',
     password: ''
-//    jwt: ''
   }
 
-   //Changing state
+   //Changing state on user input
   onChange = (e) => {
     this.setState({
     [e.target.name]: e.target.value,
     });
   }
 
-
+  // Login function
   onLogin = async () => {
 
    try {
@@ -43,19 +41,19 @@ export default class Login extends React.Component {
     fetch({
     query: gQuery,
       }).then(res => {
-//      this.state.jwt = res.data.login.token;
       alert("Successfully logged in!");
       sessionStorage.email = this.state.email;
       sessionStorage.username = res.data.login.user.username;
       sessionStorage.jwt = res.data.login.token;
-      this.props.history.push("/dashboard");
+      this.props.history.push("/overview");
       });
     } catch (e) {
       console.log(e.message);
       alert(e.message);
       }
-  }
+    }
 
+    // Render function
   render() {
    return (
 

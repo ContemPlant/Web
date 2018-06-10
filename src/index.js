@@ -2,10 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient, createNetworkInterface } from 'react-apollo';
-import ws from 'apollo-link-ws'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
-
-import Routes from './routes';
+import Login from './routes/Login';
+import Register from './routes/Register';
+import Landingpage from './routes/Landingpage';
+import PlantDetail from './routes/PlantDetail';
+import Overview from './routes/Overview';
 
 const networkInterface = createNetworkInterface({
   uri: 'http://167.99.240.197:8000/graphql',
@@ -16,7 +19,15 @@ const client = new ApolloClient({
 
 const App = () => (
   <ApolloProvider client={client}>
-    <Routes />
+  <BrowserRouter>
+    <Switch>
+      <Route exact path="/" render={props => <Landingpage {...props} />} />
+      <Route exact path="/register" render={props => <Register {...props} />} />
+      <Route exact path="/login" render={props => <Login {...props} />} />
+      <Route exact path="/detail" render={props => <PlantDetail {...props} />} />
+      <Route exact path="/overview" render={props => <Overview {...props} />} />
+    </Switch>
+  </BrowserRouter>
   </ApolloProvider>
 );
 
