@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import { Icon, Segment, Button, Popup, Grid, Image} from 'semantic-ui-react';
+import { Icon, Segment, Button, Popup, Grid, Image } from 'semantic-ui-react';
 import IndividualImage from './IndividualImage';
 import HealthIcon from './HealthIcon';
 import ArduLoader from './ArduLoader';
@@ -14,9 +14,25 @@ class PlantView extends React.Component {
               jwt: sessionStorage.jwt,
               plantName: this.props.plant.name,
               plantId: this.props.plant.id,
-              health: 10
+              health: 50,
+							loaded: this.isLoaded()
 			};
-		}
+	}
+
+				isLoaded() {
+					if (sessionStorage.loadedPlantId !== null && sessionStorage.loadedPlantId === this.props.plantId) {
+						return true
+					} else {
+						return false
+					}
+				}
+
+	onDetail(e) {
+		sessionStorage.health = this.state.health,
+		sessionStorage.plantId = this.state.plantId,
+		sessionStorage.plantName = this.state.plantName,
+		this.props.history.push("/detail")
+	}
 
 
     render() {
@@ -28,15 +44,17 @@ class PlantView extends React.Component {
               <IndividualImage id={this.state.plantId} />
             </Grid.Column>
             <Grid.Column width={4} verticalAlign="middle">
-              <Link to="/detail">
-                <h2>{this.props.plant.name}</h2>
-              </Link>
+						<Popup
+								trigger={ <a onClick={ (e) => this.onDetail(e) }><h2>{this.props.plant.name}</h2></a> }
+								content="Show plant details"
+								basic
+						/>
             </Grid.Column>
             <Grid.Column width={4} verticalAlign="middle">
               <HealthIcon health={this.state.health} />
             </Grid.Column>
             <Grid.Column width={4} verticalAlign="middle">
-              <ArduLoader health={this.state.health} plantId={this.state.plantId} />
+              <ArduLoader health={this.state.health} plantId={this.state.plantId} plantName={this.state.plantName}/>
             </Grid.Column>
           </Grid>
 

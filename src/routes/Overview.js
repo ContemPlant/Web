@@ -16,8 +16,8 @@ const fetch = createApolloFetch({uri});
 
 export default class Overview extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             jwt: sessionStorage.jwt,
             email: sessionStorage.email,
@@ -61,6 +61,7 @@ export default class Overview extends React.Component {
                     this.setState({
                         plants: res.data.plants
                     });
+                    console.log(res.data.plants)
 
                 });
             } catch (e) {
@@ -181,7 +182,7 @@ export default class Overview extends React.Component {
                   <br></br>
                   <br></br>
                   <List celled>
-                      {this.state.plants.map((plant) => {return <List.Item key={plant.id} ><PlantView plant={plant}/></List.Item>})}
+                      {this.state.plants.map((plant) => {return <List.Item key={plant.id} ><PlantView plant={plant} history={this.props.history}/></List.Item> })}
                   </List>
                   <Accordion>
                   <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick}>

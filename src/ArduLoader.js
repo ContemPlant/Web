@@ -14,6 +14,7 @@ export default class ArduLoader extends Component {
       health: this.props.health,
       activeIndex: 1,
       plantId: this.props.plantId,
+      plantName: this.props.plantName,
       arduId: "",
       jwt: sessionStorage.jwt
   	};
@@ -61,6 +62,9 @@ query: loadOnArdu,
 }).then(res => {
 
 console.log(res);
+sessionStorage.arduId = this.state.arduId;
+sessionStorage.loadedPlantId = this.state.plantId;
+sessionStorage.loadedPlantName = this.state.plantName;
 
 });
 } catch (e) {

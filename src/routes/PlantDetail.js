@@ -7,6 +7,7 @@ import { createApolloFetch } from 'apollo-fetch';
 import logo from "../styles/logo.svg";
 import '../styles/styles.css';
 import Healthometer from '../Healthometer';
+import Tree from "./Tree"
 
 
 // Connecting to Graphql Endpoint
@@ -127,22 +128,41 @@ var humTemplate = {
 class PlantDetail extends React.Component {
 
   constructor(props) {
-            // Preparing states
             super(props);
             this.state = {
               plantId: sessionStorage.plantId,
               plantName: sessionStorage.plantName,
               arduId: sessionStorage.arduId,
               jwt: sessionStorage.jwt,
-              temperature : tempTemplate,
-              humidity: humTemplate,
-              loudness: loudTemplate,
-              radiation: radTemplate,
-              timer: ""
+              health: sessionStorage.health,
+              temperature : "",
+              humidity: "",
+              loudness: "",
+              radiation: "",
+              timer: "",
+              loaded: this.plantIsLoaded(),
             };
+
+            if (this.state.loaded) {
+              this.state.temperature = tempTemplate
+              this.state.humidity = humTemplate
+              this.state.loudness = loudTemplate
+              this.state.radiation = radTemplate
+              this.onUpdatePlantData()
+            }
+
+            console.log(this.state.loaded)
 
           }
 
+
+  plantIsLoaded() {
+    if (sessionStorage.loadedPlantId === sessionStorage.plantId ) {
+      return true
+    } else {
+      return false
+    }
+  };
 
 
      //Changing state on user input
@@ -266,9 +286,12 @@ class PlantDetail extends React.Component {
         <br/>
                 <div style={{width: 900}}>
                 <Segment padded>
-                <h2>{this.state.plantName}</h2>
+                <h1>{this.state.plantName}</h1>
                 <br/>
-                  < Healthometer health={100} />
+                <Tree heightFactor={0.3} />
+                <br/>
+                <Divider />
+                  < Healthometer health={this.state.health} />
                   <div style={{width: 700 , hight: 550}}>
                   <Line   data={this.state.temperature}
                             width={300}
