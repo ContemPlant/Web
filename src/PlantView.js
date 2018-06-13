@@ -14,7 +14,7 @@ class PlantView extends React.Component {
               jwt: sessionStorage.jwt,
               plantName: this.props.plant.name,
               plantId: this.props.plant.id,
-              health: 100
+              health: 10
 			};
 		}
 
@@ -25,7 +25,7 @@ class PlantView extends React.Component {
         	<div>
           <Grid>
             <Grid.Column width={4} verticalAlign="middle">
-              <IndividualImage name={this.state.plantId} />
+              <IndividualImage id={this.state.plantId} />
             </Grid.Column>
             <Grid.Column width={4} verticalAlign="middle">
               <Link to="/detail">

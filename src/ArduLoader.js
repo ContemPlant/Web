@@ -81,7 +81,7 @@ console.log(e.message);
         Connect your plant
       </Accordion.Title>
       <Accordion.Content active={activeIndex === 0}>
-        <Input name="arduID" placeholder="Arduino ID" onChange={ e=> this.onChange(e) } value = { this.state.arduID }/>
+        <Input name="arduId" placeholder="Arduino ID" onChange={ e=> this.onChange(e) } value = { this.state.arduId }/>
         <br/>
         <br/>
         <Button primary onClick={ e => this.onArduLoad(e)} > connect </Button>

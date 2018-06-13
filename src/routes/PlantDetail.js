@@ -130,9 +130,9 @@ class PlantDetail extends React.Component {
             // Preparing states
             super(props);
             this.state = {
-              plantID: sessionStorage.plantID,
+              plantId: sessionStorage.plantId,
               plantName: sessionStorage.plantName,
-              arduID: "",
+              arduId: sessionStorage.arduId,
               jwt: sessionStorage.jwt,
               temperature : tempTemplate,
               humidity: humTemplate,
@@ -140,6 +140,7 @@ class PlantDetail extends React.Component {
               radiation: radTemplate,
               timer: ""
             };
+
           }
 
 
@@ -158,7 +159,7 @@ class PlantDetail extends React.Component {
 
         var updateData = `query {
           plant(
-          id: ` + `"` + this.state.plantID + `"` + `
+          id: ` + `"` + this.state.plantId + `"` + `
           ){name ,loudnessData(last: 1){value ,  timeStamp}, humidityData(last: 1){value ,  timeStamp}, radiationData(last: 1){value ,  timeStamp}, temperatureData(last : 1){value, timeStamp}}}`;
 
           fetch.use(({
@@ -215,8 +216,8 @@ class PlantDetail extends React.Component {
 
               var loadOnArdu = `mutation {
                 loadPlantOnArdu(
-                arduId: ` + `"` + this.state.arduID + `"` + `
-                plantId: ` + `"` + this.state.plantID + `"` + `
+                arduId: ` + `"` + this.state.arduId + `"` + `
+                plantId: ` + `"` + this.state.plantId + `"` + `
                 ){arduId}}`;
 
                 fetch.use(({

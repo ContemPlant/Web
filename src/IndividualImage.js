@@ -7,7 +7,7 @@ class IndividualImage extends React.Component {
 	constructor(props) {
             super(props);
             this.state = {
-              name: this.props.name
+              plantId: this.props.id
 			};
 		}
 
@@ -19,7 +19,7 @@ class IndividualImage extends React.Component {
             <Helmet>
               <script src="https://cdn.jsdelivr.net/npm/jdenticon@2.1.0" async></script>
             </Helmet>
-            	<svg width="80" height="80" data-jdenticon-value={this.state.name}></svg>
+            	<svg width="80" height="80" data-jdenticon-value={this.state.plantId}></svg>
 			    </div>
         )
     }
