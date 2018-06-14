@@ -41,7 +41,7 @@ export default class Login extends React.Component {
     fetch({
     query: gQuery,
       }).then(res => {
-      alert("Successfully logged in!");
+//      alert("Successfully logged in!");
       sessionStorage.email = this.state.email;
       sessionStorage.username = res.data.login.user.username;
       sessionStorage.jwt = res.data.login.token;

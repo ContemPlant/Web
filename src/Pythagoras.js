@@ -5,6 +5,20 @@ Math.deg = function(radians) {
     return radians * (180 / Math.PI);
 };
 
+// Temporary color implimintation
+var red = 255;
+const getRed = function(){
+    if(red <= 0){
+        red = 255;
+    }else{    
+        red = red - 50;}
+        return red;
+}
+
+    
+
+
+
 const memoizedCalc = (function() {
     const memo = {};
 
@@ -70,7 +84,7 @@ const Pythagoras = ({
                 height={w}
                 x={0}
                 y={0}
-                style={{fill:"rgb(43,191,43)"}}
+                style={{fill:"rgb(" + getRed() + ",191,43)"}}
             />
 
             <Pythagoras

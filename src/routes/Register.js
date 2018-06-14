@@ -34,7 +34,7 @@ class Register extends React.Component {
                         variables: this.state
                     });
                     console.log(response);
-                    alert("User successfully created.")
+//                    alert("User successfully created.")
                     this.props.history.push("/login");
                 } catch (e) {
                     alert(e.message)

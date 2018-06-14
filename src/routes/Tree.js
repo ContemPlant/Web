@@ -26,6 +26,7 @@ class Tree extends Component {
     state = {
         currentMax: 11,
         baseW: 80,
+//        heightFactor: 0.2,
         heightFactor: this.props.heightFactor,
         lean: 0
     };
@@ -33,7 +34,7 @@ class Tree extends Component {
     realMax = 11;
 
     componentDidMount() {
-        //d3select(this.refs.svg).on("mousemove", this.onMouseMove.bind(this));
+        d3select(this.refs.svg).on("mousemove", this.onMouseMove.bind(this));
         this.next();
     }
 
@@ -51,29 +52,20 @@ class Tree extends Component {
         }
     }
 
-    // Throttling approach borrowed from Vue fork
-    // https://github.com/yyx990803/vue-fractal/blob/master/src/App.vue
-    // rAF makes it slower than just throttling on React update
+// Lean function range 0.2 - -0.2 
     onMouseMove(event) {
         if (this.running) return;
         this.running = true;
 
         const [x, y] = d3mouse(this.refs.svg),
 
-              scaleFactor = scaleLinear().domain([this.svg.height, 0])
-                                         .range([0, .8]),
-
               scaleLean = scaleLinear().domain([0, this.svg.width/2, this.svg.width])
-                                       .range([.5, 0, -.5]);
+                                       .range([.2, 0, -.2]);
 
         this.setState({
-            heightFactor: scaleFactor(y),
             lean: scaleLean(x)
         });
         this.running = false;
-        console.log(this.state.currentMax)
-        console.log(this.state.baseW)
-        console.log(this.state.heightFactor)
     }
 
     render() {
