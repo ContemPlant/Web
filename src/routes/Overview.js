@@ -40,7 +40,7 @@ export default class Overview extends React.Component {
 
         try {
                 // Preparing the query for gql
-                var plantQuery = `{plants{name id temperature_opt humidity_opt radiation_opt}}`;
+                var plantQuery = `{plants{name id temperature_opt humidity_opt radiation_opt plantStates{health size environment}}`;
 
                 fetch.use(({
                     request,
@@ -58,6 +58,7 @@ export default class Overview extends React.Component {
                 fetch({
                     query: plantQuery,
                 }).then(res => {
+                  console.log(res.data);
                     this.setState({
                         plants: res.data.plants
                     });
@@ -89,7 +90,7 @@ export default class Overview extends React.Component {
             try {
 
                 var createPlant = `mutation {
-                    createPlant(
+                    createPlant(input:{
                     name: "` + this.state.plantName + `"
 
                     temperature_opt:` + this.state.tempOpt + `
@@ -107,7 +108,7 @@ export default class Overview extends React.Component {
                     loudness_opt: `+ this.state.loudOpt + `
 
                     loudness_weight: 1
-                    ) {
+                    }) {
                         id
                     }
                 }`
