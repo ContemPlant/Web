@@ -37,6 +37,11 @@ class Tree extends Component {
         this.next();
     }
 
+    componentWillReceiveProps(nextProps) {
+      if ( nextProps.heightFactor !== this.state.heightFactor )
+        this.setState( { ...this.state, heightFactor: nextProps.heightFactor})
+    }
+
     next() {
         const { currentMax } = this.state;
 

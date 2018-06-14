@@ -134,7 +134,8 @@ class PlantDetail extends React.Component {
               plantName: sessionStorage.plantName,
               arduId: sessionStorage.arduId,
               jwt: sessionStorage.jwt,
-              health: sessionStorage.health,
+              health: 0,
+              size: 0,
               temperature : "",
               humidity: "",
               loudness: "",
@@ -178,9 +179,22 @@ class PlantDetail extends React.Component {
       try{
 
         var updateData = `query {
-          plant(
-          id: ` + `"` + this.state.plantId + `"` + `
-          ){name ,loudnessData(last: 1){value ,  timeStamp}, humidityData(last: 1){value ,  timeStamp}, radiationData(last: 1){value ,  timeStamp}, temperatureData(last : 1){value, timeStamp}}}`;
+  plant(id: "${this.state.plantId}")
+  {
+    plantStates(last: 1) {
+      environment
+      size
+      health
+      sensorDates {
+        timeStamp
+        temperatureValue
+        humidityValue
+        radiationValue
+        loudnessValue
+        }
+      }
+  }
+}`
 
           fetch.use(({
             request,
@@ -197,29 +211,67 @@ class PlantDetail extends React.Component {
         // Fetching query
         fetch({
           query: updateData,
-        }).then(res => {
-
-
-          if( this.state.temperature.labels[this.state.temperature.labels.length - 1] !== res.data.plant.temperatureData[0].timeStamp.substring(11, 19)){
-
-            this.state.temperature.labels = [...this.state.temperature.labels, res.data.plant.temperatureData[0].timeStamp.substring(11, 19)]
-            this.state.temperature.datasets[0].data = [...this.state.temperature.datasets[0].data, res.data.plant.temperatureData[0].value]
-
-            this.state.humidity.labels = [...this.state.humidity.labels, res.data.plant.humidityData[0].timeStamp.substring(11, 19)]
-            this.state.humidity.datasets[0].data = [...this.state.humidity.datasets[0].data, res.data.plant.humidityData[0].value]
-
-            this.state.radiation.labels = [...this.state.radiation.labels, res.data.plant.radiationData[0].timeStamp.substring(11, 19)]
-            this.state.radiation.datasets[0].data = [...this.state.radiation.datasets[0].data, res.data.plant.radiationData[0].value]
-
-            this.state.loudness.labels = [...this.state.loudness.labels, res.data.plant.loudnessData[0].timeStamp.substring(11, 19)]
-            this.state.loudness.datasets[0].data = [...this.state.loudness.datasets[0].data, res.data.plant.loudnessData[0].value]
-
-            // Has to be there :D! => refreshes the state
-            this.setState({
-            });
-          }else{
-            console.log("No new data!")
+        }).then(res => res.data.plant.plantStates && res.data.plant.plantStates[0])
+        .then(plantState => {
+          if(!plantState) {
+            console.log("No data")
+            return
           }
+          const { sensorDates } = plantState
+          console.log(this.state.temperature)
+          console.log(sensorDates)
+          console.log(plantState)
+
+          const oldTime = this.state.temperature.labels.slice(-1)[0]
+          const newTime = sensorDates.timeStamp.substring(11, 19)
+
+          if (oldTime != newTime) {
+            console.log("Setting state")
+            this.setState(prev => ({
+              health: Math.floor(plantState.health* 100),
+              size: plantState.size,
+              temperature : {
+                  ...prev.temperature,
+                  labels: [...prev.temperature.labels, sensorDates.timeStamp.substring(11, 19)],
+                  datasets : [ { ...prev.temperature.datasets[0], data: [ ...prev.temperature.datasets[0].data, sensorDates.temperatureValue] }]
+                },
+                humidity : {
+                    ...prev.humidity,
+                    labels: [...prev.humidity.labels, sensorDates.timeStamp.substring(11, 19)],
+                    datasets : [ { ...prev.humidity.datasets[0], data: [ ...prev.humidity.datasets[0].data, sensorDates.humidityValue] }]
+                  },
+                radiation : {
+                      ...prev.radiation,
+                      labels: [...prev.radiation.labels, sensorDates.timeStamp.substring(11, 19)],
+                      datasets : [ { ...prev.radiation.datasets[0], data: [ ...prev.radiation.datasets[0].data, sensorDates.radiationValue] }]
+                },
+                loudness : {
+                    ...prev.loudness,
+                    labels: [...prev.loudness.labels, sensorDates.timeStamp.substring(11, 19)],
+                    datasets : [ { ...prev.loudness.datasets[0], data: [ ...prev.loudness.datasets[0].data, sensorDates.loudnessValue] }]
+                  },
+            }))
+        }
+          // if( this.state.temperature.labels[this.state.temperature.labels.length - 1] !== res.data.plant.temperatureData[0].timeStamp.substring(11, 19)){
+          //
+          //   this.state.temperature.labels = [...this.state.temperature.labels, res.data.plant.temperatureData[0].timeStamp.substring(11, 19)]
+          //   this.state.temperature.datasets[0].data = [...this.state.temperature.datasets[0].data, res.data.plant.temperatureData[0].value]
+          //
+          //   this.state.humidity.labels = [...this.state.humidity.labels, res.data.plant.humidityData[0].timeStamp.substring(11, 19)]
+          //   this.state.humidity.datasets[0].data = [...this.state.humidity.datasets[0].data, res.data.plant.humidityData[0].value]
+          //
+          //   this.state.radiation.labels = [...this.state.radiation.labels, res.data.plant.radiationData[0].timeStamp.substring(11, 19)]
+          //   this.state.radiation.datasets[0].data = [...this.state.radiation.datasets[0].data, res.data.plant.radiationData[0].value]
+          //
+          //   this.state.loudness.labels = [...this.state.loudness.labels, res.data.plant.loudnessData[0].timeStamp.substring(11, 19)]
+          //   this.state.loudness.datasets[0].data = [...this.state.loudness.datasets[0].data, res.data.plant.loudnessData[0].value]
+          //
+          //   // Has to be there :D! => refreshes the state
+          //   this.setState({
+          //   });
+          // }else{
+          //   console.log("No new data!")
+          // }
         });
       } catch (e) {
         console.log(e.message);
@@ -288,7 +340,7 @@ class PlantDetail extends React.Component {
                 <Segment padded>
                 <h1>{this.state.plantName}</h1>
                 <br/>
-                <Tree heightFactor={0.3} />
+                <Tree heightFactor={this.state.size/100} />
                 <br/>
                 <Divider />
                   < Healthometer health={this.state.health} />

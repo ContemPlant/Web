@@ -40,7 +40,17 @@ export default class Overview extends React.Component {
 
         try {
                 // Preparing the query for gql
-                var plantQuery = `{plants{name id temperature_opt humidity_opt radiation_opt plantStates{health size environment}}`;
+                var plantQuery = `query {
+ plants {
+   id
+   name
+   plantStates(last: 1) {
+     health
+     environment
+     size
+   }
+    }
+}`
 
                 fetch.use(({
                     request,
