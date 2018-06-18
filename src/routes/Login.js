@@ -1,6 +1,7 @@
 import React from 'react';
 import { createApolloFetch } from 'apollo-fetch';
 import { Icon, Input, Segment, Button, Divider, Label } from 'semantic-ui-react'
+import { loginQuery } from '../queries'
 
 // Connecting to Graphql Endpoint
 const uri = 'http://167.99.240.197:8000/graphql';
@@ -30,16 +31,9 @@ export default class Login extends React.Component {
 
    try {
 
-   // Preparing the query for gql
-   var gQuery = `mutation {
-                            login(
-                                  email: ` + `"` + this.state.email + `"` + `
-                                  password: ` + `"` + this.state.password + `"` + `
-                                  ){user{username,id,email},token}}`;
-
     // Fetching query
     fetch({
-    query: gQuery,
+    query: loginQuery(this.state.email, this.state.password),
       }).then(res => {
 //      alert("Successfully logged in!");
       sessionStorage.email = this.state.email;

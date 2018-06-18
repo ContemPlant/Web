@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {createApolloFetch} from 'apollo-fetch';
 import { Accordion, Icon, Button, Input } from 'semantic-ui-react';
+import { updatePlantData, loadOnArdu } from './queries';
 
 // Connecting to Graphql Endpoint
 const uri = 'http://167.99.240.197:8000/graphql';
@@ -37,13 +38,6 @@ onChange = (e) => {
 onArduLoad = async (e) => {
 
   try{
-
-    var loadOnArdu = `mutation {
-      loadPlantOnArdu(
-      arduId: ` + `"` + this.state.arduId + `"` + `
-      plantId: ` + `"` + this.state.plantId + `"` + `
-      ){arduId}}`;
-
       fetch.use(({
         request,
         options
@@ -58,7 +52,7 @@ onArduLoad = async (e) => {
 
     // Fetching query
 fetch({
-query: loadOnArdu,
+query: loadOnArdu(this.state.arduId, this.state.plantId),
 }).then(res => {
 
 console.log(res);

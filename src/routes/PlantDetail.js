@@ -2,7 +2,7 @@ import React from 'react';
 import {Line} from 'react-chartjs-2';
 import { Icon, Input, Segment, Button, Divider, Label } from 'semantic-ui-react';
 import { createApolloFetch } from 'apollo-fetch';
-
+import { updatePlantData, loadOnArdu } from '../queries'
 
 import logo from "../styles/logo.svg";
 import '../styles/styles.css';
@@ -15,7 +15,7 @@ const uri = 'http://167.99.240.197:8000/graphql';
 const fetch = createApolloFetch({uri});
 
 
-// Chart templates
+// Chart templates 
 var tempTemplate = {
   labels: [],
   datasets: [
@@ -175,26 +175,7 @@ class PlantDetail extends React.Component {
 
     //Get last data of plant and add it into chart array
     onUpdatePlantData = async (e) => {
-
       try{
-
-        var updateData = `query {
-  plant(id: "${this.state.plantId}")
-  {
-    plantStates(last: 1) {
-      environment
-      size
-      health
-      sensorDates {
-        timeStamp
-        temperatureValue
-        humidityValue
-        radiationValue
-        loudnessValue
-        }
-      }
-  }
-}`
 
           fetch.use(({
             request,
@@ -210,7 +191,7 @@ class PlantDetail extends React.Component {
 
         // Fetching query
         fetch({
-          query: updateData,
+          query: updatePlantData(this.state.plantId),
         }).then(res => res.data.plant.plantStates && res.data.plant.plantStates[0])
         .then(plantState => {
           if(!plantState) {
@@ -252,26 +233,6 @@ class PlantDetail extends React.Component {
                   },
             }))
         }
-          // if( this.state.temperature.labels[this.state.temperature.labels.length - 1] !== res.data.plant.temperatureData[0].timeStamp.substring(11, 19)){
-          //
-          //   this.state.temperature.labels = [...this.state.temperature.labels, res.data.plant.temperatureData[0].timeStamp.substring(11, 19)]
-          //   this.state.temperature.datasets[0].data = [...this.state.temperature.datasets[0].data, res.data.plant.temperatureData[0].value]
-          //
-          //   this.state.humidity.labels = [...this.state.humidity.labels, res.data.plant.humidityData[0].timeStamp.substring(11, 19)]
-          //   this.state.humidity.datasets[0].data = [...this.state.humidity.datasets[0].data, res.data.plant.humidityData[0].value]
-          //
-          //   this.state.radiation.labels = [...this.state.radiation.labels, res.data.plant.radiationData[0].timeStamp.substring(11, 19)]
-          //   this.state.radiation.datasets[0].data = [...this.state.radiation.datasets[0].data, res.data.plant.radiationData[0].value]
-          //
-          //   this.state.loudness.labels = [...this.state.loudness.labels, res.data.plant.loudnessData[0].timeStamp.substring(11, 19)]
-          //   this.state.loudness.datasets[0].data = [...this.state.loudness.datasets[0].data, res.data.plant.loudnessData[0].value]
-          //
-          //   // Has to be there :D! => refreshes the state
-          //   this.setState({
-          //   });
-          // }else{
-          //   console.log("No new data!")
-          // }
         });
       } catch (e) {
         console.log(e.message);
@@ -281,45 +242,6 @@ class PlantDetail extends React.Component {
             setTimeout(function(){this.onUpdatePlantData();}.bind(this), 4000);
 
           }
-
-          onArduLoad = async (e) => {
-
-            try{
-
-              var loadOnArdu = `mutation {
-                loadPlantOnArdu(
-                arduId: ` + `"` + this.state.arduId + `"` + `
-                plantId: ` + `"` + this.state.plantId + `"` + `
-                ){arduId}}`;
-
-                fetch.use(({
-                  request,
-                  options
-                }, next) => {
-                  if (!options.headers) {
-                        options.headers = {}; // Create the headers object if needed.
-                      }
-                      options.headers['authorization'] = "Bearer " + this.state.jwt;
-
-                      next();
-                    });
-
-        // Fetching query
-        fetch({
-          query: loadOnArdu,
-        }).then(res => {
-
-          console.log(res);
-
-        });
-      } catch (e) {
-        console.log(e.message);
-      }
-
-      setTimeout(function(){this.onUpdatePlantData();}.bind(this), 8000);
-
-    }
-
 
     render(){
 
@@ -343,6 +265,13 @@ class PlantDetail extends React.Component {
                 <Tree heightFactor={this.state.size/100} />
                 <br/>
                 <Divider />
+                <Button.Group>
+                  <Button color="green">live data</Button>
+                  <Button.Or />
+                  <Button color="orange">historical</Button>
+                </Button.Group>
+        <br/>
+        <br/>
                   < Healthometer health={this.state.health} />
                   <div style={{width: 700 , hight: 550}}>
                   <Line   data={this.state.temperature}

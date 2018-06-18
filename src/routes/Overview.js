@@ -2,6 +2,7 @@ import React from 'react';
 import {createApolloFetch} from 'apollo-fetch';
 import {Line} from 'react-chartjs-2';
 import { Icon, Input, Segment, Button, Divider, List, Container, Accordion } from 'semantic-ui-react'
+import { plantQuery, createPlant } from '../queries'
 
 
 import logo from "../styles/logo.svg";
@@ -36,21 +37,11 @@ export default class Overview extends React.Component {
 
     }
 
+
+    // Gets list of user plants    
     updatePlants() {
 
         try {
-                // Preparing the query for gql
-                var plantQuery = `query {
- plants {
-   id
-   name
-   plantStates(last: 1) {
-     health
-     environment
-     size
-   }
-    }
-}`
 
                 fetch.use(({
                     request,
@@ -66,7 +57,7 @@ export default class Overview extends React.Component {
 
                 // Fetching query
                 fetch({
-                    query: plantQuery,
+                    query: plantQuery(),
                 }).then(res => {
                   console.log(res.data);
                     this.setState({
@@ -78,8 +69,6 @@ export default class Overview extends React.Component {
             } catch (e) {
                 console.log(e.message);
             }
-            setTimeout(function(){this.render({
-            });}.bind(this), 8000);
 
         }
 
@@ -99,32 +88,9 @@ export default class Overview extends React.Component {
 
             try {
 
-                var createPlant = `mutation {
-                    createPlant(input:{
-                    name: "` + this.state.plantName + `"
-
-                    temperature_opt:` + this.state.tempOpt + `
-
-                    temperature_weight:1
-
-                    humidity_opt: ` + this.state.humidityOpt + `
-
-                    humidity_weight: 1
-
-                    radiation_opt: ` + this.state.radOpt + `
-
-                    radiation_weight: 1
-
-                    loudness_opt: `+ this.state.loudOpt + `
-
-                    loudness_weight: 1
-                    }) {
-                        id
-                    }
-                }`
                     // Fetching query
                     fetch({
-                        query: createPlant,
+                        query: createPlant(this.state.plantName, this.state.tempOpt, this.state.humidityOpt, this.state.radOpt, this.state.loudOpt),
                     }).then(res => {
                         // Updating token (We need another solution for that)
                         console.log(res)

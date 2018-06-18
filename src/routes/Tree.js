@@ -26,7 +26,7 @@ class Tree extends Component {
     state = {
         currentMax: 11,
         baseW: 80,
-//        heightFactor: 0.2,
+//        heightFactor: 0.5,
         heightFactor: this.props.heightFactor,
         lean: 0
     };
