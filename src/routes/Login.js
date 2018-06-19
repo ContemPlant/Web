@@ -52,7 +52,7 @@ export default class Login extends React.Component {
    return (
 
     <center>
-      <div style={{width: 400, height: 600}}>
+      <div style={{maxWidth: 400, height: 600}}>
         <br/>
         <br/>
         <Segment padded>
