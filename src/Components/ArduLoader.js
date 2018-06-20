@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {createApolloFetch} from 'apollo-fetch';
 import { Accordion, Icon, Button, Input } from 'semantic-ui-react';
-import { updatePlantData, loadOnArdu } from './queries';
+import { loadOnArdu } from '../Utils/queries';
 
 // Connecting to Graphql Endpoint
 const uri = 'http://167.99.240.197:8000/graphql';

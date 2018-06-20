@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { select as d3select, mouse as d3mouse } from 'd3-selection';
 import { scaleLinear } from 'd3-scale';
 
-import Pythagoras from '../Pythagoras';
+import Pythagoras from '../Components/Pythagoras';
 
 
 // borrowed from Vue fork https://github.com/yyx990803/vue-fractal/blob/master/src/App.vue
