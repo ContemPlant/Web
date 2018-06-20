@@ -3,8 +3,10 @@
     "version": "0.1.0",
     "private": true,
     "devDependencies": {
+        "enzyme": "^3.3.0",
+        "enzyme-adapter-react-15": "^1.0.5",
         "mock-local-storage": "^1.0.5",
-        "react-scripts": "1.0.10",
+        "react-scripts": "^1.1.4",
         "react-test-renderer": "^15.6.1"
     },
     "dependencies": {
@@ -29,9 +31,6 @@
         "semantic-ui-react": "^0.80.2",
         "subscriptions-transport-ws": "^0.9.9",
         "vector2d": "^3.0.0"
-    },
-    "jest": {
-        "setupTestFrameworkScriptFile": "mock-local-storage"
     },
     "scripts": {
         "start": "react-scripts start",

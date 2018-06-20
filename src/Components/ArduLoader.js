@@ -16,8 +16,7 @@ export default class ArduLoader extends Component {
       activeIndex: 1,
       plantId: this.props.plantId,
       plantName: this.props.plantName,
-      arduId: "",
-      jwt: sessionStorage.jwt
+      arduId: ""
   	};
   }
 
@@ -45,7 +44,7 @@ onArduLoad = async (e) => {
         if (!options.headers) {
               options.headers = {}; // Create the headers object if needed.
             }
-            options.headers['authorization'] = "Bearer " + this.state.jwt;
+            options.headers['authorization'] = "Bearer " + sessionStorage.jwt
 
             next();
           });

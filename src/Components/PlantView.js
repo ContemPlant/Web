@@ -30,7 +30,7 @@ class PlantView extends React.Component {
             : false
     }
 
-    onDetail(e) {
+    onDetail() {
         sessionStorage.health = this.state.health
         sessionStorage.plantId = this.state.plantId
         sessionStorage.plantName = this.state.plantName
@@ -49,7 +49,7 @@ class PlantView extends React.Component {
                 </Grid.Column>
                 <Grid.Column width={4} verticalAlign="middle">
                     <Popup
-                        trigger={<a onClick={(e) => this.onDetail(e)}><h2>{this.props.plant.name}</h2></a>}
+                        trigger={<a onClick={this.onDetail}><h2>{this.props.plant.name}</h2></a>}
                         content="Show plant details"
                         basic
                     />
