@@ -39,6 +39,27 @@ var tempTemplate = {
     pointRadius: 1,
     pointHitRadius: 10,
     data: []
+  },
+  {
+    label: 'temperature optimum',
+    fill: false,
+    lineTension: 0.1,
+    backgroundColor: 'rgba(75,192,192,0.4)',
+    borderColor: 'rgba(75,192,192,1)',
+    borderCapStyle: 'butt',
+    borderDash: [],
+    borderDashOffset: 0.0,
+    borderJoinStyle: 'miter',
+    pointBorderColor: 'rgba(75,192,192,1)',
+    pointBackgroundColor: '#fff',
+    pointBorderWidth: 1,
+    pointHoverRadius: 5,
+    pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+    pointHoverBorderColor: 'rgba(220,220,220,1)',
+    pointHoverBorderWidth: 2,
+    pointRadius: 1,
+    pointHitRadius: 10,
+    data: []
   }
   ]
 };
@@ -66,7 +87,27 @@ var radTemplate = {
     pointRadius: 1,
     pointHitRadius: 10,
     data: []
-  }
+  },
+  {    
+    label: 'radiation optimum',
+    fill: false,
+    lineTension: 0.1,
+    backgroundColor: 'rgba(140,0,22,130)',
+    borderColor: 'rgba(140,0,22,130)',
+    borderCapStyle: 'butt',
+    borderDash: [],
+    borderDashOffset: 0.0,
+    borderJoinStyle: 'miter',
+    pointBorderColor: 'rgba(75,192,192,1)',
+    pointBackgroundColor: '#fff',
+    pointBorderWidth: 1,
+    pointHoverRadius: 5,
+    pointHoverBackgroundColor: 'rgba(140,0,22,130)',
+    pointHoverBorderColor: 'rgba(140,0,22,130)',
+    pointHoverBorderWidth: 2,
+    pointRadius: 1,
+    pointHitRadius: 10,
+    data: []}
   ]
 };
 
@@ -75,6 +116,27 @@ var loudTemplate = {
   datasets: [
   {
     label: 'live loudness',
+    fill: false,
+    lineTension: 0.1,
+    backgroundColor: 'rgba(150,45,232,2)',
+    borderColor: 'rgba(150,45,232,2)',
+    borderCapStyle: 'butt',
+    borderDash: [],
+    borderDashOffset: 0.0,
+    borderJoinStyle: 'miter',
+    pointBorderColor: 'rgba(150,45,232,2)',
+    pointBackgroundColor: '#fff',
+    pointBorderWidth: 1,
+    pointHoverRadius: 5,
+    pointHoverBackgroundColor: 'rgba(150,45,232,2)',
+    pointHoverBorderColor: 'rgba(150,45,232,2)',
+    pointHoverBorderWidth: 2,
+    pointRadius: 1,
+    pointHitRadius: 10,
+    data: []
+  },
+  {
+    label: 'loudness optimum',
     fill: false,
     lineTension: 0.1,
     backgroundColor: 'rgba(150,45,232,2)',
@@ -120,6 +182,27 @@ var humTemplate = {
     pointRadius: 1,
     pointHitRadius: 10,
     data: []
+  },
+  {
+    label: 'humidity optimum',
+    fill: false,
+    lineTension: 0.1,
+    backgroundColor: 'rgba(32,124,232,2)',
+    borderColor: 'rgba(32,124,232,2)',
+    borderCapStyle: 'butt',
+    borderDash: [],
+    borderDashOffset: 0.0,
+    borderJoinStyle: 'miter',
+    pointBorderColor: 'rgba(75,192,192,1)',
+    pointBackgroundColor: '#fff',
+    pointBorderWidth: 1,
+    pointHoverRadius: 5,
+    pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+    pointHoverBorderColor: 'rgba(220,220,220,1)',
+    pointHoverBorderWidth: 2,
+    pointRadius: 1,
+    pointHitRadius: 10,
+    data: []
   }
   ]
 };
@@ -137,9 +220,13 @@ class PlantDetail extends React.Component {
               health: 0,
               size: 0,
               temperature : "",
+              tempOpt : sessionStorage.tempOpt,
               humidity: "",
+              humOpt : sessionStorage.humOpt,
               loudness: "",
+              loudOpt: sessionStorage.loudOpt,
               radiation: "",
+              radOpt: sessionStorage.radOpt,
               timer: "",
               loaded: this.plantIsLoaded(),
             };
@@ -214,22 +301,26 @@ class PlantDetail extends React.Component {
               temperature : {
                   ...prev.temperature,
                   labels: [...prev.temperature.labels, sensorDates.timeStamp.substring(11, 19)],
-                  datasets : [ { ...prev.temperature.datasets[0], data: [ ...prev.temperature.datasets[0].data, sensorDates.temperatureValue] }]
+                  datasets : [ { ...prev.temperature.datasets[0], data: [ ...prev.temperature.datasets[0].data, sensorDates.temperatureValue] }],
+                  datasets : [ { ...prev.temperature.datasets[1], data: [ ...prev.temperature.datasets[1].data, this.state.tempOpt] }]
                 },
                 humidity : {
                     ...prev.humidity,
                     labels: [...prev.humidity.labels, sensorDates.timeStamp.substring(11, 19)],
-                    datasets : [ { ...prev.humidity.datasets[0], data: [ ...prev.humidity.datasets[0].data, sensorDates.humidityValue] }]
+                    datasets : [ { ...prev.humidity.datasets[0], data: [ ...prev.humidity.datasets[0].data, sensorDates.humidityValue] }],
+                    datasets : [ { ...prev.humidity.datasets[1], data: [ ...prev.humidity.datasets[1].data, this.state.humOpt] }]
                   },
                 radiation : {
                       ...prev.radiation,
                       labels: [...prev.radiation.labels, sensorDates.timeStamp.substring(11, 19)],
-                      datasets : [ { ...prev.radiation.datasets[0], data: [ ...prev.radiation.datasets[0].data, sensorDates.radiationValue] }]
+                      datasets : [ { ...prev.radiation.datasets[0], data: [ ...prev.radiation.datasets[0].data, sensorDates.radiationValue] }],
+                      datasets : [ { ...prev.radiation.datasets[1], data: [ ...prev.radiation.datasets[1].data, this.state.radOpt] }]
                 },
                 loudness : {
                     ...prev.loudness,
                     labels: [...prev.loudness.labels, sensorDates.timeStamp.substring(11, 19)],
-                    datasets : [ { ...prev.loudness.datasets[0], data: [ ...prev.loudness.datasets[0].data, sensorDates.loudnessValue] }]
+                    datasets : [ { ...prev.loudness.datasets[0], data: [ ...prev.loudness.datasets[0].data, sensorDates.loudnessValue] }],
+                    datasets : [ { ...prev.loudness.datasets[1], data: [ ...prev.loudness.datasets[1].data, this.state.loudOpt] }]
                   },
             }))
         }

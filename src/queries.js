@@ -17,6 +17,10 @@
  									plants {
    											id
    											name
+   											temperature_opt
+   											humidity_opt
+   											radiation_opt
+   											loudness_opt
    											plantStates(last: 1) {
      											                  health
      															  environment

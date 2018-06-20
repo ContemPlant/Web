@@ -15,9 +15,12 @@ class PlantView extends React.Component {
               plantName: this.props.plant.name,
               plantId: this.props.plant.id,
               health: (this.props.plant.plantStates[0] && this.props.plant.plantStates[0].health || 0)*100,
-							loaded: this.isLoaded()
+			  loaded: this.isLoaded(),
+			  tempOpt: this.props.plant.temperature_opt,
+   			  humOpt: this.props.plant.humidity_opt,
+   			  radOpt: this.props.plant.radiation_opt,
+   			  loudOpt: this.props.plant.loudness_opt
 			};
-			console.log(this.props.plant.id)
 	}
 
 				isLoaded() {
@@ -32,6 +35,10 @@ class PlantView extends React.Component {
 		sessionStorage.health = this.state.health,
 		sessionStorage.plantId = this.state.plantId,
 		sessionStorage.plantName = this.state.plantName,
+		sessionStorage.tempOpt = this.state.tempOpt,
+		sessionStorage.humOpt = this.state.humOpt,
+		sessionStorage.radOpt = this.state.radOpt,
+		sessionStorage.loudOpt = this.state.loudOpt
 		this.props.history.push("/detail")
 	}
 
