@@ -4,10 +4,9 @@ import { Segment, Button, Divider } from 'semantic-ui-react'
 import { createApolloFetch } from 'apollo-fetch'
 import { updatePlantData } from '../Utils/queries'
 
-import logo from "../styles/logo.svg"
 import '../styles/styles.css'
 import Healthometer from '../Components/Healthometer'
-import Tree from "./Tree"
+import Tree from "../Components/Tree"
 
 
 // Connecting to Graphql Endpoint
@@ -328,7 +327,7 @@ class PlantDetail extends React.Component {
                         <br />
                         <br />
                         < Healthometer health={this.state.health} />
-                        <div style={{ width: 700, hight: 550 }}>
+                        {/* <div style={{ width: 700, hight: 550 }}>
                             <Line data={this.state.temperature}
                                 width={300}
                                 height={200}
@@ -351,7 +350,7 @@ class PlantDetail extends React.Component {
                                 width={300}
                                 height={200}
                                 options={{ maintainAspectRatio: false }} />
-                        </div>
+                        </div> */}
                         <br />
                     </Segment>
                 </div>

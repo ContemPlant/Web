@@ -31,13 +31,13 @@ class PlantView extends React.Component {
     }
 
     onDetail() {
-        sessionStorage.health = this.state.health
-        sessionStorage.plantId = this.state.plantId
-        sessionStorage.plantName = this.state.plantName
-        sessionStorage.tempOpt = this.state.tempOpt
-        sessionStorage.humOpt = this.state.humOpt
-        sessionStorage.radOpt = this.state.radOpt
-        sessionStorage.loudOpt = this.state.loudOpt
+        // sessionStorage.health = this.state.health
+        // sessionStorage.plantId = this.state.plantId
+        // sessionStorage.plantName = this.state.plantName
+        // sessionStorage.tempOpt = this.state.tempOpt
+        // sessionStorage.humOpt = this.state.humOpt
+        // sessionStorage.radOpt = this.state.radOpt
+        // sessionStorage.loudOpt = this.state.loudOpt
         this.props.history.push("/detail")
     }
 
@@ -49,7 +49,7 @@ class PlantView extends React.Component {
                 </Grid.Column>
                 <Grid.Column width={4} verticalAlign="middle">
                     <Popup
-                        trigger={<a onClick={this.onDetail}><h2>{this.props.plant.name}</h2></a>}
+                        trigger={<a onClick={() => this.onDetail}><h2>{this.props.plant.name}</h2></a>}
                         content="Show plant details"
                         basic
                     />
