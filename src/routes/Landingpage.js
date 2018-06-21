@@ -14,14 +14,6 @@ render(){
     <center>
         <br/>
         <br/>
-	       <header className="HomePage-header">
-          <style>
-          @import url('https://fonts.googleapis.com/css?family=Pacifico');
-          </style>
-          <img src={logo} className="HomePage-logo" alt="logo" />
-          <h1 className="HomePage-title"><span>Contem</span>Plant</h1>
-        </header>
-
         <div style={{width: 400, height: 600}}>
           <Segment padded>
   	         <br/>
