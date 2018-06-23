@@ -133,7 +133,7 @@ export default class Overview extends React.Component {
                                 <br></br>
                                 <br></br>
                                 <List celled>
-                                    {this.state.plants.map((plant) => { return <List.Item key={plant.id} ><PlantView plant={plant}/></List.Item> })}
+                                    {this.state.plants.map((plant) => { return <List.Item key={plant.id} ><PlantView plant={plant} history={this.props.history} /></List.Item> })}
                                 </List>
                                 <Accordion>
                                     <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick}>

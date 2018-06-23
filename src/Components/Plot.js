@@ -1,27 +1,21 @@
 import React from 'react'
 import { Line } from 'react-chartjs-2'
-import { merge } from 'lodash'
 
 class Plot extends React.Component {
 
     constructor(props) {
         super(props)
-        const { template } = props.config
-        this.state = { data: template }
+        const { config } = props
+        this.state = {
+            data: config
+        }
     }
 
-    componentWillReceiveProps(newProps) {
-        addData(this.state.data, newProps.label, newProps.data)
-    }
+    componentWillReceiveProps(nextProps) {
+        if (this.props.config == nextProps.config) return
 
-    addData(label, data) {
-
-        let { data: chart } = this.state
-
-        chart.data.labels.push(label)
-        chart.data.datasets[0].push(data)
-
-        this.setState(prev => merge(prev, { data: chart }))
+        const { config } = nextProps
+        this.setState({ data : config })
     }
 
     render() {

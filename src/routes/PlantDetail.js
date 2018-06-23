@@ -3,209 +3,24 @@ import { Line } from 'react-chartjs-2'
 import { Segment, Button, Divider } from 'semantic-ui-react'
 import { createApolloFetch } from 'apollo-fetch'
 import { updatePlantData } from '../Utils/queries'
+import { merge } from 'lodash'
 
 import '../styles/styles.css'
 import Healthometer from '../Components/Healthometer'
 import Tree from "../Components/Tree"
+import Plot from "../Components/Plot"
 
+// Chart templates 
+import {
+    tempTemplate,
+    radTemplate,
+    humTemplate,
+    loudTemplate
+} from '../Components/plot-config'
 
 // Connecting to Graphql Endpoint
 const uri = 'http://167.99.240.197:8000/graphql'
 const fetch = createApolloFetch({ uri })
-
-// Chart templates 
-var tempTemplate = {
-    labels: [],
-    datasets: [
-        {
-            label: 'live temperature',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: []
-        },
-        {
-            label: 'temperature optimum',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: []
-        }
-    ]
-}
-
-var radTemplate = {
-    labels: [],
-    datasets: [
-        {
-            label: 'live radiation',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgba(140,0,22,130)',
-            borderColor: 'rgba(140,0,22,130)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(140,0,22,130)',
-            pointHoverBorderColor: 'rgba(140,0,22,130)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: []
-        },
-        {
-            label: 'radiation optimum',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgba(140,0,22,130)',
-            borderColor: 'rgba(140,0,22,130)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(140,0,22,130)',
-            pointHoverBorderColor: 'rgba(140,0,22,130)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: []
-        }
-    ]
-}
-
-var loudTemplate = {
-    labels: [],
-    datasets: [
-        {
-            label: 'live loudness',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgba(150,45,232,2)',
-            borderColor: 'rgba(150,45,232,2)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(150,45,232,2)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(150,45,232,2)',
-            pointHoverBorderColor: 'rgba(150,45,232,2)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: []
-        },
-        {
-            label: 'loudness optimum',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgba(150,45,232,2)',
-            borderColor: 'rgba(150,45,232,2)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(150,45,232,2)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(150,45,232,2)',
-            pointHoverBorderColor: 'rgba(150,45,232,2)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: []
-        }
-    ]
-}
-
-var humTemplate = {
-    labels: [],
-    datasets: [
-        {
-            label: 'live humidity',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgba(32,124,232,2)',
-            borderColor: 'rgba(32,124,232,2)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: []
-        },
-        {
-            label: 'humidity optimum',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgba(32,124,232,2)',
-            borderColor: 'rgba(32,124,232,2)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: []
-        }
-    ]
-}
-
 
 class PlantDetail extends React.Component {
 
@@ -219,7 +34,7 @@ class PlantDetail extends React.Component {
             jwt: sessionStorage.jwt,
             health: 0,
             size: 0,
-            temperature: loaded ? tempTemplate : null,
+            temperature: tempTemplate,
             tempOpt: sessionStorage.tempOpt,
             humidity: loaded ? humTemplate : null,
             humOpt: sessionStorage.humOpt,
@@ -230,8 +45,6 @@ class PlantDetail extends React.Component {
             timer: "",
             loaded: loaded,
         }
-
-        if (loaded) this.onUpdatePlantData()
 
     }
 
@@ -247,66 +60,75 @@ class PlantDetail extends React.Component {
         })
     }
 
+    componentWillMount() {
+        // if the current plant is loaded
+        if (this.plantIsLoaded())
+            // Then start polling for live data
+            this.startPoll()
+    }
+
+    fetchData() {
+        const authMiddleWare = jwt => ({ options }, next) => {
+            if (!options.headers) {
+                options.headers = {} // Create the headers object if needed.
+            }
+            options.headers['authorization'] = "Bearer " + jwt
+            next()
+        }
+        fetch.use(authMiddleWare(this.state.jwt))
+
+        // Fetching query
+        return fetch({ query: updatePlantData(this.state.plantId) })
+            .then(res => res.data.plant.plantStates && res.data.plant.plantStates[0])
+    }
+
     //Get last data of plant and add it into chart array
-    onUpdatePlantData = async (e) => {
-        try {
+    async onUpdatePlantData() {
 
-            fetch.use(({ options }, next) => {
-                if (!options.headers) {
-                    options.headers = {} // Create the headers object if needed.
-                }
-                options.headers['authorization'] = "Bearer " + this.state.jwt
-                next()
-            })
+        const plantState = await this.fetchData()
 
-            // Fetching query
-            const plantState = await fetch({
-                query: updatePlantData(this.state.plantId),
-            }).then(res => res.data.plant.plantStates && res.data.plant.plantStates[0])
+        console.log(plantState)
+        // If we didn't receive any data
+        if (!plantState) return
 
-            // If we didn't receive any data
-            if (!plantState) return
+        const { sensorDates } = plantState
 
-            const { sensorDates } = plantState
+        const oldTime = this.state.temperature.labels.slice(-1)[0]
+        const newTime = sensorDates.timeStamp.substring(11, 19)
+        // If we didn't receive new data
+        if (oldTime == newTime) return
 
-            const oldTime = this.state.temperature.labels.slice(-1)[0]
-            const newTime = sensorDates.timeStamp.substring(11, 19)
-            // If we didn't receive new data
-            if (oldTime == newTime) return
+        const {
+            temperatureValue: t,
+            humidityValue: h,
+            radiationValue: r,
+            loudnessValue: l
+        } = sensorDates
 
-            this.setState(prev => ({
-                health: Math.floor(plantState.health * 100),
-                size: plantState.size,
-                temperature: {
-                    ...prev.temperature,
-                    labels: [...prev.temperature.labels, sensorDates.timeStamp.substring(11, 19)],
-                    datasets: [{ ...prev.temperature.datasets[0], data: [...prev.temperature.datasets[0].data, sensorDates.temperatureValue] }],
-                    datasets: [{ ...prev.temperature.datasets[1], data: [...prev.temperature.datasets[1].data, this.state.tempOpt] }]
-                },
-                humidity: {
-                    ...prev.humidity,
-                    labels: [...prev.humidity.labels, sensorDates.timeStamp.substring(11, 19)],
-                    datasets: [{ ...prev.humidity.datasets[0], data: [...prev.humidity.datasets[0].data, sensorDates.humidityValue] }],
-                    datasets: [{ ...prev.humidity.datasets[1], data: [...prev.humidity.datasets[1].data, this.state.humOpt] }]
-                },
-                radiation: {
-                    ...prev.radiation,
-                    labels: [...prev.radiation.labels, sensorDates.timeStamp.substring(11, 19)],
-                    datasets: [{ ...prev.radiation.datasets[0], data: [...prev.radiation.datasets[0].data, sensorDates.radiationValue] }],
-                    datasets: [{ ...prev.radiation.datasets[1], data: [...prev.radiation.datasets[1].data, this.state.radOpt] }]
-                },
-                loudness: {
-                    ...prev.loudness,
-                    labels: [...prev.loudness.labels, sensorDates.timeStamp.substring(11, 19)],
-                    datasets: [{ ...prev.loudness.datasets[0], data: [...prev.loudness.datasets[0].data, sensorDates.loudnessValue] }],
-                    datasets: [{ ...prev.loudness.datasets[1], data: [...prev.loudness.datasets[1].data, this.state.loudOpt] }]
-                },
-            }))
+        this.setState(prev => ({
+            health: Math.floor(plantState.health * 100),
+            size: plantState.size,
+            temperature: this.addChartData(this.state.tempOpt)(this.state.temperature, newTime, t),
+            humidity: this.addChartData(this.state.humOpt)(this.state.humidity, newTime, h),
+            radiation: this.addChartData(this.state.radOpt)(this.state.radiation, newTime, r),
+            loudness: this.addChartData(this.state.loudOpt)(this.state.loudness, newTime, l)
+        }))
 
-        } catch (e) { console.log(e.message) }
+    }
 
-        // timeout to wait for new data
-        setTimeout(function () { this.onUpdatePlantData() }.bind(this), 4000)
+    startPoll() {
+        this.onUpdatePlantData()
+        setTimeout(() => this.startPoll(), 3000);
+    }
+
+    addChartData = opt => (chart, label, data) => {
+        return {
+            labels: [...chart.labels, label],
+            datasets: [
+                { ...chart.datasets[0], data: [...chart.datasets[0].data, data] },
+                { ...chart.datasets[1], data: [...chart.datasets[1].data, opt] }
+            ]
+        }
     }
 
     render() {
@@ -327,30 +149,10 @@ class PlantDetail extends React.Component {
                         <br />
                         <br />
                         < Healthometer health={this.state.health} />
-                        {/* <div style={{ width: 700, hight: 550 }}>
-                            <Line data={this.state.temperature}
-                                width={300}
-                                height={200}
-                                options={{ maintainAspectRatio: false }} />
-                        </div>
-                        <div style={{ width: 700, hight: 550 }}>
-                            <Line data={this.state.humidity}
-                                width={300}
-                                height={200}
-                                options={{ maintainAspectRatio: false }} />
-                        </div>
-                        <div style={{ width: 700, hight: 550 }}>
-                            <Line data={this.state.radiation}
-                                width={300}
-                                height={200}
-                                options={{ maintainAspectRatio: false }} />
-                        </div>
-                        <div style={{ width: 700, hight: 550 }}>
-                            <Line data={this.state.loudness}
-                                width={300}
-                                height={200}
-                                options={{ maintainAspectRatio: false }} />
-                        </div> */}
+                        < Plot config={this.state.temperature} />
+                        < Plot config={this.state.humidity} />
+                        < Plot config={this.state.radiation} />
+                        < Plot config={this.state.loudness} />
                         <br />
                     </Segment>
                 </div>
