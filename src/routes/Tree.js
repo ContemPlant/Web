@@ -4,20 +4,6 @@ import { scaleLinear } from 'd3-scale';
 
 import Pythagoras from '../Components/Pythagoras';
 
-
-// borrowed from Vue fork https://github.com/yyx990803/vue-fractal/blob/master/src/App.vue
-function throttleWithRAF (fn) {
-  let running = false
-  return function () {
-    if (running) return
-    running = true
-    window.requestAnimationFrame(() => {
-      fn.apply(this, arguments)
-      running = false
-    })
-  }
-}
-
 class Tree extends Component {
     svg = {
         width: 600,
@@ -26,7 +12,6 @@ class Tree extends Component {
     state = {
         currentMax: 11,
         baseW: 80,
-//        heightFactor: 0.5,
         heightFactor: this.props.heightFactor,
         lean: 0
     };
@@ -52,7 +37,7 @@ class Tree extends Component {
         }
     }
 
-// Lean function range 0.2 - -0.2 
+// Lean function range 0.2 - -0.2
     onMouseMove(event) {
         if (this.running) return;
         this.running = true;

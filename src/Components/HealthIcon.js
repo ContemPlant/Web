@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon, Segment, Button, Popup, Grid, Image} from 'semantic-ui-react';
+import { Button, Popup } from 'semantic-ui-react';
 
 
 class HealthIcon extends React.Component {
@@ -8,21 +8,24 @@ class HealthIcon extends React.Component {
             super(props);
             this.state = {
               health: this.props.health,
-              color: ""
+              color: this.setColor(this.props.health)
 			       };
-
-             this.getColor();
 		}
 
-    getColor() {
-      if (this.state.health <= 33) {
-        this.state.color="red";
-      } else if (this.state.health > 33 && this.state.health <= 66 ) {
-        this.state.color= "yellow";
+    setColor(health) {
+      if (health <= 33) {
+				return "red"
+      } else if (health > 33 && health <= 66 ) {
+				return "yellow"
       } else {
-        this.state.color="green";
+				return "green"
       }
     }
+
+		componentWillReceiveProps(nextProps) {
+			if ( nextProps.health !== this.state.health )
+				this.setState( { health: nextProps.health, color: this.setColor(nextProps.health)})
+		}
 
 
     render() {

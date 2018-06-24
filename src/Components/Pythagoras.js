@@ -1,5 +1,5 @@
 import React from "react";
-import { interpolateViridis } from "d3-scale";
+// import { interpolateViridis } from "d3-scale";
 
 Math.deg = function(radians) {
     return radians * (180 / Math.PI);
@@ -10,12 +10,12 @@ var red = 255;
 const getRed = function(){
     if(red <= 0){
         red = 255;
-    }else{    
+    }else{
         red = red - 50;}
         return red;
 }
 
-    
+
 
 
 

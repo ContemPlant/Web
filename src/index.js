@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient, createNetworkInterface } from 'react-apollo';
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import logo from "./styles/logo.svg"
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
+import logo from './styles/logo.svg';
 import Login from './routes/Login';
 import Register from './routes/Register';
 import Landingpage from './routes/Landingpage';

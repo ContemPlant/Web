@@ -26,7 +26,6 @@ export default class Healthometer extends Component {
       this.setState( { health: nextProps.health, color: this.setColor(nextProps.health)})
   }
 
-
 	render() {
 		return (
 			<div>

@@ -1,6 +1,5 @@
 import React from 'react'
 import { Segment, Button, Divider } from 'semantic-ui-react'
-import logo from "../styles/logo.svg"
 import '../styles/styles.css'
 
 

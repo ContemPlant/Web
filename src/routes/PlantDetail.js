@@ -4,7 +4,6 @@ import { Segment, Button, Divider } from 'semantic-ui-react'
 import { createApolloFetch } from 'apollo-fetch'
 import { updatePlantData } from '../Utils/queries'
 
-import logo from "../styles/logo.svg"
 import '../styles/styles.css'
 import Healthometer from '../Components/Healthometer'
 import Tree from "./Tree"
@@ -14,7 +13,7 @@ import Tree from "./Tree"
 const uri = 'http://167.99.240.197:8000/graphql'
 const fetch = createApolloFetch({ uri })
 
-// Chart templates 
+// Chart templates
 var tempTemplate = {
     labels: [],
     datasets: [
@@ -273,7 +272,7 @@ class PlantDetail extends React.Component {
             const oldTime = this.state.temperature.labels.slice(-1)[0]
             const newTime = sensorDates.timeStamp.substring(11, 19)
             // If we didn't receive new data
-            if (oldTime == newTime) return
+            if (oldTime === newTime) return
 
             this.setState(prev => ({
                 health: Math.floor(plantState.health * 100),
