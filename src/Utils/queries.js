@@ -2,8 +2,8 @@
 // login queries
 function loginQuery(email, pass) {
     return `mutation {
-        login( 
-            email: "${email}" 
+        login(
+            email: "${email}"
             password: "${pass}"
         ){
             user {username, id, email },
@@ -33,7 +33,7 @@ function plantQuery() {
     }`
 }
 
-// Mutation to create a user plant 
+// Mutation to create a user plant
 function createPlant(plantName, tempOpt, humOpt, radOpt, loudOpt) {
     return `mutation {
         createPlant(input:{
@@ -50,11 +50,11 @@ function createPlant(plantName, tempOpt, humOpt, radOpt, loudOpt) {
     }`
 }
 
-// Query to get the last plant data 
-function updatePlantData(plantId) {
+// Query to get the last plant data
+function updatePlantData(plantId, qty) {
     return `query {
         plant(id: "${plantId}"){
-            plantStates(last: 1) {
+            plantStates(last: ${qty}) {
                 environment
                 size
                 health

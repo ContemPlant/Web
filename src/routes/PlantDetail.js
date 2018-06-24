@@ -3,208 +3,27 @@ import { Line } from 'react-chartjs-2'
 import { Segment, Button, Divider } from 'semantic-ui-react'
 import { createApolloFetch } from 'apollo-fetch'
 import { updatePlantData } from '../Utils/queries'
+import {  tempTemplate,
+          tempTemplateHist,
+          radTemplate,
+          radTemplateHist,
+          humTemplate,
+          humTemplateHist,
+          loudTemplate,
+          loudTemplateHist} from "../Utils/chartTemplates"
 
+import logo from "../styles/logo.svg"
 import '../styles/styles.css'
 import Healthometer from '../Components/Healthometer'
 import Tree from "./Tree"
+import LiveCharts from "../Components/LiveCharts"
+import HistoricalCharts from "../Components/HistoricalCharts"
 
 
 // Connecting to Graphql Endpoint
 const uri = 'http://167.99.240.197:8000/graphql'
 const fetch = createApolloFetch({ uri })
 
-// Chart templates
-var tempTemplate = {
-    labels: [],
-    datasets: [
-        {
-            label: 'live temperature',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: []
-        },
-        {
-            label: 'temperature optimum',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: []
-        }
-    ]
-}
-
-var radTemplate = {
-    labels: [],
-    datasets: [
-        {
-            label: 'live radiation',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgba(140,0,22,130)',
-            borderColor: 'rgba(140,0,22,130)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(140,0,22,130)',
-            pointHoverBorderColor: 'rgba(140,0,22,130)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: []
-        },
-        {
-            label: 'radiation optimum',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgba(140,0,22,130)',
-            borderColor: 'rgba(140,0,22,130)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(140,0,22,130)',
-            pointHoverBorderColor: 'rgba(140,0,22,130)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: []
-        }
-    ]
-}
-
-var loudTemplate = {
-    labels: [],
-    datasets: [
-        {
-            label: 'live loudness',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgba(150,45,232,2)',
-            borderColor: 'rgba(150,45,232,2)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(150,45,232,2)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(150,45,232,2)',
-            pointHoverBorderColor: 'rgba(150,45,232,2)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: []
-        },
-        {
-            label: 'loudness optimum',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgba(150,45,232,2)',
-            borderColor: 'rgba(150,45,232,2)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(150,45,232,2)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(150,45,232,2)',
-            pointHoverBorderColor: 'rgba(150,45,232,2)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: []
-        }
-    ]
-}
-
-var humTemplate = {
-    labels: [],
-    datasets: [
-        {
-            label: 'live humidity',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgba(32,124,232,2)',
-            borderColor: 'rgba(32,124,232,2)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: []
-        },
-        {
-            label: 'humidity optimum',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgba(32,124,232,2)',
-            borderColor: 'rgba(32,124,232,2)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: []
-        }
-    ]
-}
 
 
 class PlantDetail extends React.Component {
@@ -219,16 +38,21 @@ class PlantDetail extends React.Component {
             jwt: sessionStorage.jwt,
             health: 0,
             size: 0,
-            temperature: loaded ? tempTemplate : null,
+            temperature: loaded ? tempTemplate() : null,
+            temperatureHist: tempTemplateHist(),
             tempOpt: sessionStorage.tempOpt,
-            humidity: loaded ? humTemplate : null,
+            humidity: loaded ? humTemplate() : null,
+            humidityHist: humTemplateHist(),
             humOpt: sessionStorage.humOpt,
-            loudness: loaded ? loudTemplate : null,
+            loudness: loaded ? loudTemplate() : null,
+            loudnessHist: loudTemplateHist(),
             loudOpt: sessionStorage.loudOpt,
-            radiation: loaded ? radTemplate : null,
+            radiation: loaded ? radTemplate() : null,
+            radiationHist: radTemplateHist(),
             radOpt: sessionStorage.radOpt,
             timer: "",
             loaded: loaded,
+            live: true
         }
 
         if (loaded) this.onUpdatePlantData()
@@ -261,7 +85,7 @@ class PlantDetail extends React.Component {
 
             // Fetching query
             const plantState = await fetch({
-                query: updatePlantData(this.state.plantId),
+                query: updatePlantData(this.state.plantId, 1),
             }).then(res => res.data.plant.plantStates && res.data.plant.plantStates[0])
 
             // If we didn't receive any data
@@ -272,7 +96,7 @@ class PlantDetail extends React.Component {
             const oldTime = this.state.temperature.labels.slice(-1)[0]
             const newTime = sensorDates.timeStamp.substring(11, 19)
             // If we didn't receive new data
-            if (oldTime === newTime) return
+            if (oldTime == newTime) return
 
             this.setState(prev => ({
                 health: Math.floor(plantState.health * 100),
@@ -309,6 +133,31 @@ class PlantDetail extends React.Component {
         setTimeout(function () { this.onUpdatePlantData() }.bind(this), 4000)
     }
 
+    onHistory = async (e) => {
+
+      this.setState({live: false});
+
+      try {
+
+          fetch.use(({ options }, next) => {
+              if (!options.headers) {
+                  options.headers = {} // Create the headers object if needed.
+              }
+              options.headers['authorization'] = "Bearer " + this.state.jwt
+              next()
+          })
+
+          // Fetching query
+          const plantState = await fetch({
+              query: updatePlantData(this.state.plantId, 100),
+          }).then(res => {console.log(res)})
+
+
+
+
+      } catch (e) { console.log(e.message) }
+    }
+
     render() {
         return (
             <center>
@@ -320,37 +169,18 @@ class PlantDetail extends React.Component {
                         <br />
                         <Divider />
                         <Button.Group>
-                            <Button color="green">live data</Button>
+                            <Button color="green" onClick={() => {this.setState({live: true})}}>live data</Button>
                             <Button.Or />
-                            <Button color="orange">historical</Button>
+                            <Button color="orange" onClick={(e) => this.onHistory(e)}>historical</Button>
                         </Button.Group>
                         <br />
                         <br />
                         < Healthometer health={this.state.health} />
-                        <div style={{ width: 700, hight: 550 }}>
-                            <Line data={this.state.temperature}
-                                width={300}
-                                height={200}
-                                options={{ maintainAspectRatio: false }} />
-                        </div>
-                        <div style={{ width: 700, hight: 550 }}>
-                            <Line data={this.state.humidity}
-                                width={300}
-                                height={200}
-                                options={{ maintainAspectRatio: false }} />
-                        </div>
-                        <div style={{ width: 700, hight: 550 }}>
-                            <Line data={this.state.radiation}
-                                width={300}
-                                height={200}
-                                options={{ maintainAspectRatio: false }} />
-                        </div>
-                        <div style={{ width: 700, hight: 550 }}>
-                            <Line data={this.state.loudness}
-                                width={300}
-                                height={200}
-                                options={{ maintainAspectRatio: false }} />
-                        </div>
+                        {this.state.live ?
+                          <LiveCharts temperatureLive={this.state.temperature} humidityLive={this.state.humidity} radiationLive={this.state.radiation} loudnessLive={this.state.loudness}/>
+                          :
+                          <HistoricalCharts temperatureHist={this.state.temperatureHist} humidityHist={this.state.humidityHist} radiationHist={this.state.radiationHist} loudnessHist={this.state.loudnessHist}/>
+                        }
                         <br />
                     </Segment>
                 </div>
@@ -360,3 +190,30 @@ class PlantDetail extends React.Component {
 }
 
 export default PlantDetail
+
+// Maybe i will need it later
+
+// <div style={{ width: 700, hight: 550 }}>
+//     <Line data={this.state.temperature}
+//         width={300}
+//         height={200}
+//         options={{ maintainAspectRatio: false }} />
+// </div>
+// <div style={{ width: 700, hight: 550 }}>
+//     <Line data={this.state.humidity}
+//         width={300}
+//         height={200}
+//         options={{ maintainAspectRatio: false }} />
+// </div>
+// <div style={{ width: 700, hight: 550 }}>
+//     <Line data={this.state.radiation}
+//         width={300}
+//         height={200}
+//         options={{ maintainAspectRatio: false }} />
+// </div>
+// <div style={{ width: 700, hight: 550 }}>
+//     <Line data={this.state.loudness}
+//         width={300}
+//         height={200}
+//         options={{ maintainAspectRatio: false }} />
+// </div>
