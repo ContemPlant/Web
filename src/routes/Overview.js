@@ -31,7 +31,6 @@ export default class Overview extends React.Component {
         this.updatePlants()
     }
 
-
     updatePlants() {
 
         try {

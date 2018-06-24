@@ -20,25 +20,9 @@ class PlantView extends React.Component {
             loudOpt: this.props.plant.loudness_opt,
             history: this.props.history
         }
-
-        console.log("STATE HEALTH:")
-        console.log(this.state.health)
     }
-
-/*
-    isLoaded() {
-        const { loadedPlantId } = sessionStorage
-        const { plantId } = this.props
-
-        return loadedPlantId && loadedPlantId === plantId
-            ? true
-            : false
-    }
-    */
 
     onDetail(e) {
-      console.log("STATE HEALTH:")
-      console.log(this.state.health)
         sessionStorage.health = this.state.health
         sessionStorage.plantId = this.state.plantId
         sessionStorage.plantName = this.state.plantName
@@ -57,7 +41,7 @@ class PlantView extends React.Component {
                 </Grid.Column>
                 <Grid.Column width={4} verticalAlign="middle">
                     <Popup
-                        trigger={<a onClick={e => this.onDetail(e)}><h2>{this.props.plant.name}</h2></a>}
+                        trigger={<a onClick={(e) => this.onDetail(e)}><h2>{this.props.plant.name}</h2></a>}
                         content="Show plant details"
                         basic
                     />
