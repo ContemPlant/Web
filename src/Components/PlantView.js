@@ -22,6 +22,15 @@ class PlantView extends React.Component {
         }
     }
 
+    isLoaded() {
+        const { loadedPlantId } = sessionStorage
+        const { plantId } = this.props
+
+        return loadedPlantId && loadedPlantId === plantId
+            ? true
+            : false
+    }
+
     onDetail(e) {
         sessionStorage.health = this.state.health
         sessionStorage.plantId = this.state.plantId
@@ -33,28 +42,33 @@ class PlantView extends React.Component {
         this.state.history.push("/detail")
     }
 
-    render = () => (
-        <div>
-            <Grid>
-                <Grid.Column width={4} verticalAlign="middle">
-                    <IndividualImage id={this.state.plantId} />
-                </Grid.Column>
-                <Grid.Column width={4} verticalAlign="middle">
-                    <Popup
-                        trigger={<a onClick={(e) => this.onDetail(e)}><h2>{this.props.plant.name}</h2></a>}
-                        content="Show plant details"
-                        basic
-                    />
-                </Grid.Column>
-                <Grid.Column width={4} verticalAlign="middle">
-                    <HealthIcon health={this.state.health} />
-                </Grid.Column>
-                <Grid.Column width={4} verticalAlign="middle">
-                    <ArduLoader health={this.state.health} plantId={this.state.plantId} plantName={this.state.plantName} />
-                </Grid.Column>
-            </Grid>
-        </div>
-    )
+    render() {
+
+        return (
+            <div>
+                <Grid>
+                    <Grid.Column width={4} verticalAlign="middle">
+                        <IndividualImage id={this.state.plantId} />
+                    </Grid.Column>
+                    <Grid.Column width={4} verticalAlign="middle">
+                        <Popup
+                            trigger={<a onClick={(e) => this.onDetail(e)}><h2>{this.props.plant.name}</h2></a>}
+                            content="Show plant details"
+                            basic
+                        />
+                    </Grid.Column>
+                    <Grid.Column width={4} verticalAlign="middle">
+                        <HealthIcon health={this.state.health} />
+                    </Grid.Column>
+                    <Grid.Column width={4} verticalAlign="middle">
+                        <ArduLoader health={this.state.health} plantId={this.state.plantId} plantName={this.state.plantName} />
+                    </Grid.Column>
+                </Grid>
+
+            </div>
+        )
+    }
 }
+
 
 export default PlantView

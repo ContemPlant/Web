@@ -44,9 +44,9 @@ export default class Overview extends React.Component {
 
             fetch({ query: plantQuery() })
                 .then(res => {
-                    if (!res.data || !res.data.plants){
-                      console.log(res)
-                      return
+                    if (!res.data || !res.data.plants) {
+                        console.log(res)
+                        return
                     }
 
                     this.setState({ plants: res.data.plants })
@@ -107,128 +107,64 @@ export default class Overview extends React.Component {
 
         const { activeIndex } = this.state
 
-        var green = {
-            color: '#2bbf2b'
-        }
+        const green = { color: '#2bbf2b' }
+        const orange = { color: 'orange' }
 
-        var orange = {
-            color: 'orange'
-        }
+        if (this.state.jwt === "") return (< Login />)
 
-        if (this.state.jwt === "") {
-            alert("Please login first!")
-            return (< Login />)
-        } else {
-
-            return (
-              <div>
+        return (
+            <div>
                 <center>
-                  <Segment padded>
-                    <Container>
-                      <br />
-                      <h1>
-                        <span style={orange}>Hello</span>
-                        ,
-                        <span style={green}>
-                          {this.state.username}
-                        </span>
-                        ! Your Plants:
-                      </h1>
-                      <br>
-                      </br>
-                      <br>
-                      </br>
-                      <List celled>
-                        {this.state.plants.map((plant) => { return <List.Item key={plant.id} >
-                          <PlantView plant={plant}  history={this.props.history}/>
-                        </List.Item> })}
-                      </List>
-
-                      <Accordion>
-                        <Accordion.Title
-                          active={activeIndex === 0}
-                          index={0}
-                          onClick={this.handleClick}>
-                          <Icon name='plus circle' />
-                          Add plant
-                        </Accordion.Title>
-                        <Accordion.Content active={activeIndex === 0}>
-                          <div>
-                            <label>
-                              Plant name:
-                            </label>
-                            <br>
-                            </br>
-                            <Input
-                              name="plantName"
-                              onChange={e => this.onChange(e)}
-                              value={this.state.plantName}
-                              placeholder="Plant name" />
-                            <br>
-                            </br>
-                            <label>
-                              Optimal temperature:
-                            </label>
-                            <br>
-                            </br>
-                            <Input
-                              name="tempOpt"
-                              onChange={e => this.onChange(e)}
-                              value={this.state.tempOpt}
-                              placeholder="Temperature Opt." />
-                            <br>
-                            </br>
-                            <label>
-                              Optimal humidity:
-                            </label>
-                            <br>
-                            </br>
-                            <Input
-                              name="humidityOpt"
-                              onChange={e => this.onChange(e)}
-                              value={this.state.humidityOpt}
-                              placeholder="Humidity Opt." />
-                            <br>
-                            </br>
-                            <label>
-                              Optimal brightness:
-                            </label>
-                            <br>
-                            </br>
-                            <Input
-                              name="radOpt"
-                              onChange={e => this.onChange(e)}
-                              value={this.state.radOpt}
-                              placeholder="Radiation Opt." />
-                            <br>
-                            </br>
-                            <label>
-                              Optimal loudness:
-                            </label>
-                            <br>
-                            </br>
-                            <Input
-                              name="loudOpt"
-                              onChange={e => this.onChange(e)}
-                              value={this.state.loudOpt}
-                              placeholder="Loudness Opt." />
-                            <br>
-                            </br>
-                            <br>
-                            </br>
-                            <Button
-                              primary
-                              onClick={e => this.onCreatePlant(e)}>
-                              Submit your new plant!
-                            </Button>
-                          </div>
-                        </Accordion.Content>
-                      </Accordion>
-                    </Container>
-                  </Segment>
+                    <Segment padded>
+                        <Container>
+                            <br></br>
+                            <h1>
+                                <span style={orange}>Hello</span>
+                                ,
+                    <span style={green}> {this.state.username}</span>
+                                ! Your Plants:
+                  </h1>
+                            <br></br>
+                            <br></br>
+                            <List celled>
+                                {this.state.plants.map((plant) => { return <List.Item key={plant.id} ><PlantView plant={plant} history={this.props.history} /></List.Item> })}
+                            </List>
+                            <Accordion>
+                                <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick}>
+                                    <Icon name='plus circle' />
+                                    Add plant
+                  </Accordion.Title>
+                                <Accordion.Content active={activeIndex === 0}>
+                                    <div>
+                                        <label>Plant name:</label>
+                                        <br></br>
+                                        <Input name="plantName" onChange={e => this.onChange(e)} value={this.state.plantName} placeholder="Plant name" />
+                                        <br></br>
+                                        <label>Optimal temperature:</label>
+                                        <br></br>
+                                        <Input name="tempOpt" onChange={e => this.onChange(e)} value={this.state.tempOpt} placeholder="Temperature Opt." />
+                                        <br></br>
+                                        <label>Optimal humidity:</label>
+                                        <br></br>
+                                        <Input name="humidityOpt" onChange={e => this.onChange(e)} value={this.state.humidityOpt} placeholder="Humidity Opt." />
+                                        <br></br>
+                                        <label>Optimal brightness:</label>
+                                        <br></br>
+                                        <Input name="radOpt" onChange={e => this.onChange(e)} value={this.state.radOpt} placeholder="Radiation Opt." />
+                                        <br></br>
+                                        <label>Optimal loudness:</label>
+                                        <br></br>
+                                        <Input name="loudOpt" onChange={e => this.onChange(e)} value={this.state.loudOpt} placeholder="Loudness Opt." />
+                                        <br></br>
+                                        <br></br>
+                                        <Button primary onClick={e => this.onCreatePlant(e)}>Submit your new plant!</Button>
+                                    </div>
+                                </Accordion.Content>
+                            </Accordion>
+                        </Container>
+                    </Segment>
                 </center>
-              </div>
-            )
-        }
+            </div>
+        )
     }
 }
