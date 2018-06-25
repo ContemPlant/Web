@@ -52,7 +52,13 @@ class PlantDetail extends React.Component {
             radOpt: sessionStorage.radOpt,
             timer: "",
             loaded: loaded,
-            live: true
+            live: true,
+            plantStatesHist: [],
+            timeStampsHist: [],
+            tempDataHist: [],
+            humDataHist: [],
+            radDataHist: [],
+            loudDataHist: []
         }
 
         if (loaded) this.onUpdatePlantData()
@@ -150,9 +156,28 @@ class PlantDetail extends React.Component {
           // Fetching query
           const plantState = await fetch({
               query: updatePlantData(this.state.plantId, 100),
-          }).then(res => {console.log(res)})
+          }).then(res => { this.setState({ plantStatesHist : res.data.plant.plantStates})})
+          console.log(this.state.plantStatesHist);
 
+          this.setState({ timeStampsHist : this.state.plantStatesHist.map( plant => plant.sensorDates.timeStamp.substring(11, 19)),
+                          tempDataHist : this.state.plantStatesHist.map( plant => plant.sensorDates.temperatureValue),
+                          humDataHist : this.state.plantStatesHist.map( plant => plant.sensorDates.humidityValue),
+                          radDataHist : this.state.plantStatesHist.map( plant => plant.sensorDates.radiationValue),
+                          loudDataHist : this.state.plantStatesHist.map( plant => plant.sensorDates.loudnessValue)});
 
+           this.state.temperatureHist.labels = this.state.timeStampsHist
+           this.state.temperatureHist.datasets[0].data = this.state.tempDataHist
+
+           this.state.humidityHist.labels = this.state.timeStampsHist
+           this.state.humidityHist.datasets[0].data = this.state.humDataHist
+
+           this.state.radiationHist.labels = this.state.timeStampsHist
+           this.state.radiationHist.datasets[0].data = this.state.radDataHist
+
+           this.state.loudnessHist.labels = this.state.timeStampsHist
+           this.state.loudnessHist.datasets[0].data = this.state.loudDataHist
+
+           this.setState({})
 
 
       } catch (e) { console.log(e.message) }
