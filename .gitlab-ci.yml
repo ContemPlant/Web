@@ -1,7 +1,12 @@
-staging:
+deploy_production:
   stage: deploy
   script:
-  - gem install dpl
-  - dpl --provider=heroku --app=contemplant --api-key=$HEROKU_STAGING_API_KEY
+    - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/contemplant.git
+    - git push heroku master
+    - echo "Deployed to production server"
+  environment:
+  name: production
+  url: https://contemplant.herokuapp.com/
+  when: manual
   only:
-  - master
+    - master
