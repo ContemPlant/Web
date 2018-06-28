@@ -1,15 +1,18 @@
 import React from 'react'
 import { Segment, Button, Divider } from 'semantic-ui-react'
 import { createApolloFetch } from 'apollo-fetch'
-import { updatePlantData } from '../Utils/queries'
-
-import '../styles/styles.css'
-import Healthometer from '../Components/Healthometer'
-import Tree from "../Components/Tree"
-import Plot from "../Components/Plot"
 import { merge } from 'lodash'
 
-// Chart templates 
+import { updatePlantData } from '../Utils/queries'
+import '../styles/styles.css'
+import Healthometer from '../Components/Healthometer'
+import Tree from '../Components/Tree'
+import Plot from '../Components/Plot'
+import Calendar from '../Components/Calendar'
+import DateSelector from '../Components/DateSelector'
+
+
+// Chart templates
 import {
     tempTemplate,
     radTemplate,
@@ -41,10 +44,27 @@ class PlantDetail extends React.Component {
             radiation: radTemplate(),
             radOpt: sessionStorage.radOpt,
             live: false,
+            setFirstDate: this.setFirstDate.bind(this),
+            setSecondDate: this.setSecondDate.bind(this),
+            dateFrom: '',
+            dateTo: ''
         }
     }
 
+    setFirstDate(e) {
+      console.log('First date: ' + e)
+    }
+
+    setSecondDate(e) {
+      this.setState({
+        dateTo: e
+      })
+      console.log('Second date: ' + e)
+    }
+
     loadingStrategy(live) {
+        this.setState({ live: live})
+
         // if the current plant is loaded
         if (live) {
             this.setState(prev => ({
@@ -187,11 +207,30 @@ class PlantDetail extends React.Component {
                         <Tree heightFactor={this.state.size / 100} />
                         <br />
                         <Divider />
-                        <Button.Group>
-                            <Button color="green" onClick={() => { this.loadingStrategy(true) }}>live data</Button>
-                            <Button.Or />
-                            <Button color="orange" onClick={() => { this.loadingStrategy(false) }}>historical</Button>
-                        </Button.Group>
+
+                          { this.state.live &&
+                            <Button.Group>
+                                <Button color="green" onClick={() => { this.loadingStrategy(true) }}>live data</Button>
+                                <Button.Or />
+                                <Button inverted color="orange" onClick={() => { this.loadingStrategy(false) }}>historical</Button>
+                            </Button.Group>
+                          }
+                          { !this.state.live &&
+                            <Button.Group>
+                                <Button inverted color="green" onClick={() => { this.loadingStrategy(true) }}>live data</Button>
+                                <Button.Or />
+                                <Button color="orange" onClick={() => { this.loadingStrategy(false) }}>historical</Button>
+                            </Button.Group>
+                          }
+
+                        <br />
+                        <br />
+                        {!this.state.live &&
+                          <DateSelector
+                            setFirstDate={this.setFirstDate.bind(this)}
+                            setSecondDate={this.setSecondDate.bind(this)}
+                          />
+                        }
                         <br />
                         <br />
                         < Healthometer health={Math.floor(this.state.health * 100)} />
