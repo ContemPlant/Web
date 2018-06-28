@@ -71,7 +71,6 @@ class PlantDetail extends React.Component {
         lastSelected: selectedDate
       })
 
-      console.log('New date: ' + e)
       this.onHistory()
     }
 
@@ -159,11 +158,9 @@ class PlantDetail extends React.Component {
         const health = plantStates.slice(-1).pop().health
         const size = plantStates.slice(-1).pop().size
 
-        // TODO plants = .filter(timestamp>= dateFrom and <= dateTo)
-        // timestamp format: e.g. 2018-06-15T11:12:57.984Z
         const plants = plantStates.filter(state =>
           this.isInTimeRange(state.sensorDates.timeStamp) )
-        console.log('PLANTS: ' + plants);
+
         const timeStamps = plants.map(x => x.sensorDates.timeStamp.substring(11, 19))
 
         this.setState(prev => ({
