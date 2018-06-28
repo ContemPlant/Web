@@ -180,7 +180,7 @@ class PlantDetail extends React.Component {
     render() {
         return (
             <center>
-                <div style={{ width: 900 }}>
+                <div style={{ maxWidth: 900 }}>
                     <Segment padded>
                         <h1>{this.state.plantName}</h1>
                         <br />
