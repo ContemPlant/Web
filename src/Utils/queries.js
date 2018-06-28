@@ -51,10 +51,10 @@ function createPlant(plantName, tempOpt, humOpt, radOpt, loudOpt) {
 }
 
 // Query to get the last plant data
-function updatePlantData(plantId, qty = 1) {
+function updatePlantData(plantId, all = false) {
     return `query {
         plant(id: "${plantId}"){
-            plantStates(last: ${qty}) {
+            plantStates${all ? '' : '(last: 1)'} {
                 environment
                 size
                 health

@@ -8,11 +8,7 @@ class Calendar extends React.Component {
       super(props)
       this.state = {
         onSelect: this.props.onSelect,
-        today: new Date(),
-        selected: {
-          start: '',
-          end: ''
-        }
+        today: new Date()
       }
     }
 
@@ -23,7 +19,8 @@ class Calendar extends React.Component {
           <InfiniteCalendar
             width={300}
             height={300}
-            selected={this.state.today}
+            min={new Date(2018, 0, 1)}
+            max={this.state.today}
             maxDate={this.state.today}
             onSelect={e => this.state.onSelect(e)}
           />,
