@@ -1,6 +1,5 @@
-const BACKEND_IP = '167.99.240.197'
-const PORT = '8000'
-const GRAPHQL_URI = `http://${BACKEND_IP}:${PORT}/graphql`
+const BACKEND_ADDR = 'contemplantbackend.herokuapp.com'
+const GRAPHQL_URI = `//${BACKEND_ADDR}/graphql`
 
 module.exports = {
     GRAPHQL_URI
