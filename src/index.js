@@ -10,9 +10,10 @@ import Register from './routes/Register';
 import Landingpage from './routes/Landingpage';
 import PlantDetail from './routes/PlantDetail';
 import Overview from './routes/Overview';
+import { GRAPHQL_URI } from './Utils/config'
 
 const networkInterface = createNetworkInterface({
-    uri: 'http://167.99.240.197:8000/graphql',
+    uri: GRAPHQL_URI,
 });
 const client = new ApolloClient({
     networkInterface: networkInterface

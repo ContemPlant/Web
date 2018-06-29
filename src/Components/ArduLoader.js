@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import {createApolloFetch} from 'apollo-fetch';
 import { Accordion, Icon, Button, Input } from 'semantic-ui-react';
 import { loadOnArdu } from '../Utils/queries';
+import { GRAPHQL_URI } from '../Utils/config'
 
 // Connecting to Graphql Endpoint
-const uri = 'http://167.99.240.197:8000/graphql';
-const fetch = createApolloFetch({uri});
+const fetch = createApolloFetch({uri: GRAPHQL_URI});
 
 export default class ArduLoader extends Component {
 
