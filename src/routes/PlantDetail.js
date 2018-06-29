@@ -1,7 +1,8 @@
 import React from 'react'
-import { Segment, Button, Divider, Accordion, Grid, Container } from 'semantic-ui-react'
+import { Segment, Button, Divider, Accordion, Grid, Container, Popup, Icon } from 'semantic-ui-react'
 import { createApolloFetch } from 'apollo-fetch'
 import { merge } from 'lodash'
+import { Link } from 'react-router-dom'
 
 import { updatePlantData } from '../Utils/queries'
 import '../styles/styles.css'
@@ -9,6 +10,7 @@ import Healthometer from '../Components/Healthometer'
 import Tree from '../Components/Tree'
 import Plot from '../Components/Plot'
 import Calendar from '../Components/Calendar'
+import Landingpage from './Landingpage'
 
 
 // Chart templates
@@ -153,7 +155,13 @@ class PlantDetail extends React.Component {
 
         const query = updatePlantData(this.state.plantId, true)
         const plantStates = await this.fetchData(query)
-            .then(res => res.data.plant.plantStates)
+            .then(res => res.data.plant.plantStates )
+
+        console.log(plantStates)
+
+        if(!plantStates || plantStates.length === 0){
+            return
+        }
 
         const health = plantStates.slice(-1).pop().health
         const size = plantStates.slice(-1).pop().size
@@ -232,11 +240,28 @@ class PlantDetail extends React.Component {
 
 
     render() {
+
+        if (this.state.jwt === "" || !this.state.jwt) return (<Landingpage />)
+
         return (
             <center>
-                <div style={{ maxWidth: 900 }}>
+                <div >
+                    <Container>
                     <Segment padded>
-                        <h1>{this.state.plantName}</h1>
+                    <br />
+                        <Grid container columns={3}>
+                            <Grid.Column>
+                            </Grid.Column>
+                                <Grid.Column >
+                                    <h1>{this.state.plantName}</h1>
+                                </Grid.Column>
+                                <Grid.Column textAlign='right'>
+                                    <Link to='/overview'>
+                                        <Popup trigger={<Icon color='green' name="home" size='large'/>}
+                                            content="Go back to Overview"/>
+                                    </Link>
+                                </Grid.Column>
+                            </Grid> 
                         <br />
                         <Tree heightFactor={this.state.size / 100} />
                         <br />
@@ -263,19 +288,19 @@ class PlantDetail extends React.Component {
                         <br />
                         {!this.state.live &&
                             <Container >
-                                <Segment padded>
+                                    <Divider />
                                     <Accordion>
                                         <Accordion.Title active={this.state.activeIndex === 0} index={0} onClick={this.handleClick}>
-                                            <Grid columns={2}>
+                                            <Grid container columns={2} textAlign='center'>
                                                 <Grid.Row>
                                                     <Grid.Column>
-                                                        <h1>FROM </h1>
+                                                        <h2>FROM </h2>
                                                         {this.state.dateFrom.getDate().toString()}.
                                                         {(this.state.dateFrom.getMonth()+1).toString()}.
                                                         {this.state.dateFrom.getFullYear().toString()}
                                                     </Grid.Column>
                                                     <Grid.Column>
-                                                        <h1>TO </h1>
+                                                        <h2>TO </h2>
                                                         {this.state.dateTo.getDate().toString()}.
                                                         {(this.state.dateTo.getMonth()+1).toString()}.
                                                         {this.state.dateTo.getFullYear().toString()}
@@ -287,8 +312,8 @@ class PlantDetail extends React.Component {
                                         <Accordion.Content active={this.state.activeIndex === 0}>
                                             <Calendar onSelect={this.state.onSelect.bind(this)} />
                                         </Accordion.Content>
-                                    </Accordion>    
-                                </Segment>    
+                                    </Accordion> 
+                                    <br />    
                             </ Container>
                         }
                         <br />
@@ -299,6 +324,7 @@ class PlantDetail extends React.Component {
                         < Plot config={this.state.loudness} />
                         <br />
                     </Segment>
+                    </Container>
                 </div>
             </center>
         )
