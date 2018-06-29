@@ -10,7 +10,7 @@ let datasetBaseConfig = {
     pointHoverRadius: 5,
     pointHoverBorderWidth: 2,
     pointRadius: 1,
-    pointHitRadius: 10,
+    pointHitRadius: 10
 }
 
 let tempTemplate = () => ({
@@ -19,20 +19,20 @@ let tempTemplate = () => ({
         {
             ...datasetBaseConfig,
             label: 'live temperature',
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+            backgroundColor: 'rgba(245,119,34,0.4)',
+            borderColor: 'rgba(245,119,34,1)',
+            pointBorderColor: 'rgba(242,98,34,1)',
+            pointHoverBackgroundColor: 'rgba(242,98,34,1)',
             pointHoverBorderColor: 'rgba(220,220,220,1)',
             data: []
         },
         {
             ...datasetBaseConfig,
             label: 'temperature optimum',
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+            backgroundColor: 'rgba(245,119,34,0.4)',
+            borderColor: 'rgba(245,119,34,1)',
+            pointBorderColor: 'rgba(242,98,34,1)',
+            pointHoverBackgroundColor: 'rgba(242,98,34,1)',
             pointHoverBorderColor: 'rgba(220,220,220,1)',
             data: []
         }
@@ -45,11 +45,11 @@ let radTemplate = () => ({
         {
             ...datasetBaseConfig,
             label: 'live radiation',
-            backgroundColor: 'rgba(140,0,22,130)',
-            borderColor: 'rgba(140,0,22,130)',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointHoverBackgroundColor: 'rgba(140,0,22,130)',
-            pointHoverBorderColor: 'rgba(140,0,22,130)',
+            backgroundColor: 'rgba(250,234,35,130)',
+            borderColor: 'rgba(250,234,35,130)',
+            pointBorderColor: 'rgba(253,200,84,1)',
+            pointHoverBackgroundColor: 'rgba(253,200,84,1)',
+            pointHoverBorderColor: 'rgba(250,234,35,1)',
             data: []
         },
         {
@@ -57,9 +57,9 @@ let radTemplate = () => ({
             label: 'radiation optimum',
             backgroundColor: 'rgba(140,0,22,130)',
             borderColor: 'rgba(140,0,22,130)',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointHoverBackgroundColor: 'rgba(140,0,22,130)',
-            pointHoverBorderColor: 'rgba(140,0,22,130)',
+            pointBorderColor: 'rgba(253,200,84,1)',
+            pointHoverBackgroundColor: 'rgba(253,200,84,1)',
+            pointHoverBorderColor: 'rgba(250,234,35,1)',
             data: []
         }
     ]

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { select as d3select, mouse as d3mouse } from 'd3-selection';
 import { scaleLinear } from 'd3-scale';
+import { Container, Grid } from 'semantic-ui-react'
 
 import Pythagoras from '../Components/Pythagoras';
 
@@ -55,21 +56,18 @@ class Tree extends Component {
 
     render() {
         return (
-            <div className="Tree">
-                <p className="Tree-intro">
-                    <svg width={this.svg.width} height={this.svg.height} ref="svg">
-
-                        <Pythagoras w={this.state.baseW}
-                                    h={this.state.baseW}
-                                    heightFactor={this.state.heightFactor}
-                                    lean={this.state.lean}
-                                    x={this.svg.width/2-40}
-                                    y={this.svg.height-this.state.baseW}
-                                    lvl={0}
-                                    maxlvl={this.state.currentMax}/>
-
-                    </svg>
-                </p>
+            <div>
+                <svg width={this.svg.width} height={this.svg.height} ref="svg">
+                    <Pythagoras w={this.state.baseW}
+                                h={this.state.baseW}
+                                heightFactor={this.state.heightFactor}
+                                lean={this.state.lean}
+                                x={this.svg.width/2-40}
+                                y={this.svg.height-this.state.baseW}
+                                lvl={0}
+                                maxlvl={this.state.currentMax}
+                    />
+                </svg>
             </div>
         );
     }

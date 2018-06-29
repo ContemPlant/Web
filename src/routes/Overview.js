@@ -1,10 +1,11 @@
 import React from 'react'
 import { createApolloFetch } from 'apollo-fetch'
-import { Icon, Input, Segment, Button, List, Container, Accordion } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import { Icon, Input, Segment, Button, List, Container, Accordion, Grid, Popup } from 'semantic-ui-react'
 import { plantQuery, createPlant } from '../Utils/queries'
 
 import '../styles/styles.css'
-import Login from './Login'
+import Landingpage from './Landingpage'
 import PlantView from '../Components/PlantView'
 
 // Connecting to Graphql Endpoint
@@ -102,6 +103,11 @@ export default class Overview extends React.Component {
         this.setState({ activeIndex: newIndex })
     }
 
+    onLogout(e) {
+        sessionStorage.clear()
+        this.props.history.push('/')
+    }
+
     // Render function of module
     render() {
 
@@ -110,59 +116,74 @@ export default class Overview extends React.Component {
         const green = { color: '#2bbf2b' }
         const orange = { color: 'orange' }
 
-        if (this.state.jwt === "") return (< Login />)
+        if (this.state.jwt === "" || !this.state.jwt) return (< Landingpage />)
 
         return (
             <div>
                 <center>
+                <Container>
                     <Segment padded>
-                        <Container>
-                            <br></br>
-                            <h1>
-                                <span style={orange}>Hello</span>
-                                ,
-                    <span style={green}> {this.state.username}</span>
-                                ! Your Plants:
-                  </h1>
-                            <br></br>
-                            <br></br>
-                            <List celled>
-                                {this.state.plants.map((plant) => { return <List.Item key={plant.id} ><PlantView plant={plant} history={this.props.history} /></List.Item> })}
-                            </List>
-                            <Accordion>
-                                <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick}>
-                                    <Icon name='plus circle' />
-                                    Add plant
-                  </Accordion.Title>
-                                <Accordion.Content active={activeIndex === 0}>
-                                    <div>
-                                        <label>Plant name:</label>
-                                        <br></br>
-                                        <Input name="plantName" onChange={e => this.onChange(e)} value={this.state.plantName} placeholder="Plant name" />
-                                        <br></br>
-                                        <label>Optimal temperature:</label>
-                                        <br></br>
-                                        <Input name="tempOpt" onChange={e => this.onChange(e)} value={this.state.tempOpt} placeholder="Temperature Opt." />
-                                        <br></br>
-                                        <label>Optimal humidity:</label>
-                                        <br></br>
-                                        <Input name="humidityOpt" onChange={e => this.onChange(e)} value={this.state.humidityOpt} placeholder="Humidity Opt." />
-                                        <br></br>
-                                        <label>Optimal brightness:</label>
-                                        <br></br>
-                                        <Input name="radOpt" onChange={e => this.onChange(e)} value={this.state.radOpt} placeholder="Radiation Opt." />
-                                        <br></br>
-                                        <label>Optimal loudness:</label>
-                                        <br></br>
-                                        <Input name="loudOpt" onChange={e => this.onChange(e)} value={this.state.loudOpt} placeholder="Loudness Opt." />
-                                        <br></br>
-                                        <br></br>
-                                        <Button primary onClick={e => this.onCreatePlant(e)}>Submit your new plant!</Button>
-                                    </div>
-                                </Accordion.Content>
-                            </Accordion>
-                        </Container>
+                        <br />
+                        <Grid container columns={3}>
+                            <Grid.Column>
+                            </Grid.Column>
+                            <Grid.Column >
+                                <h1>
+                                    <span style={orange}>Hello</span>
+                                    ,
+                                    <span style={green}> {this.state.username}</span>
+                                    ! Your Plants:
+                                </h1>
+                            </Grid.Column>
+                            <Grid.Column textAlign='right'>
+                                <Link to='/'>
+                                    <Popup trigger={<Icon color='green' name="log out" size='large' onClick={e => this.onLogout(e)}/>}
+                                        content="Logout"/>
+                                </Link>
+                            </Grid.Column>
+                        </Grid> 
+                        <br />
+                        <br />
+                        
+                        <List celled>
+                            {this.state.plants.map((plant) => { return <List.Item key={plant.id} ><PlantView plant={plant} history={this.props.history} /></List.Item> })}
+                        </List>
+
+                        <Accordion>
+                            <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick}>
+                                <Icon name='plus circle' color='green' size='large' />
+                                Add plant
+                            </Accordion.Title>
+                            <Accordion.Content active={activeIndex === 0}>
+                                <div>
+                                    <label>Plant name:</label>
+                                    <br />
+                                    <Input name="plantName" onChange={e => this.onChange(e)} value={this.state.plantName} placeholder="Plant name" />
+                                    <br />
+                                    <label>Optimal temperature:</label>
+                                    <br />
+                                    <Input name="tempOpt" onChange={e => this.onChange(e)} value={this.state.tempOpt} placeholder="Temperature Opt." />
+                                    <br />
+                                    <label>Optimal humidity:</label>
+                                    <br />
+                                    <Input name="humidityOpt" onChange={e => this.onChange(e)} value={this.state.humidityOpt} placeholder="Humidity Opt." />
+                                    <br />
+                                    <label>Optimal brightness:</label>
+                                    <br />
+                                    <Input name="radOpt" onChange={e => this.onChange(e)} value={this.state.radOpt} placeholder="Radiation Opt." />
+                                    <br />
+                                    <label>Optimal loudness:</label>
+                                    <br />
+                                    <Input name="loudOpt" onChange={e => this.onChange(e)} value={this.state.loudOpt} placeholder="Loudness Opt." />
+                                    <br />
+                                    <br />
+                                    <Button color='green' onClick={e => this.onCreatePlant(e)}>Submit your new plant!</Button>
+                                </div>
+                            </Accordion.Content>
+                        </Accordion>
+                        
                     </Segment>
+                    </Container>
                 </center>
             </div>
         )

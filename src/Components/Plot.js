@@ -24,7 +24,7 @@ class Plot extends React.Component {
                 <Line data={this.state.data}
                     width={300}
                     height={200}
-                    options={{ maintainAspectRatio: false }} />
+                    options={{ maintainAspectRatio: false, legend: { display: false }} } />
             </div>
         )
     }
