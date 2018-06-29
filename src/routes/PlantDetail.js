@@ -11,6 +11,7 @@ import Tree from '../Components/Tree'
 import Plot from '../Components/Plot'
 import Calendar from '../Components/Calendar'
 import Landingpage from './Landingpage'
+import ErrorMessage from '../Components/messages/ErrorMessage'
 
 
 // Chart templates
@@ -316,12 +317,26 @@ class PlantDetail extends React.Component {
                                     <br />    
                             </ Container>
                         }
+                        {this.state.live && sessionStorage.loadedPlantId !== this.state.plantId &&
+                            <ErrorMessage header="Not connected!" text="In order to receive live data, please connect to an Arduino!" />
+                        }
                         <br />
                         <br />
+                        <Popup trigger={<Icon color='orange' name="thermometer half" size='huge'/>} content= "Temperature" />
                         < Plot config={this.state.temperature} />
+                        <br />
+                        <br />
+                        <Popup trigger={<Icon color='blue' name="tint" size='huge'/>} content= "Humudity" />
                         < Plot config={this.state.humidity} />
+                        <br />
+                        <br />
+                        <Popup trigger={<Icon color='yellow' name="sun" size='huge'/>} content= "Solar Radiation" />
                         < Plot config={this.state.radiation} />
+                        <br />
+                        <br />
+                        <Popup trigger={<Icon color='purple' name="als" size='huge'/>} content= "Loudness" />
                         < Plot config={this.state.loudness} />
+                        <br />
                         <br />
                     </Segment>
                     </Container>
