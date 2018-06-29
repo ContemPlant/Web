@@ -12,7 +12,7 @@ import Plot from '../Components/Plot'
 import Calendar from '../Components/Calendar'
 import Landingpage from './Landingpage'
 import ErrorMessage from '../Components/messages/ErrorMessage'
-
+import { GRAPHQL_URI } from '../Utils/config'
 
 // Chart templates
 import {
@@ -23,8 +23,7 @@ import {
 } from '../Utils/plot-config'
 
 // Connecting to Graphql Endpoint
-const uri = 'http://167.99.240.197:8000/graphql'
-const fetch = createApolloFetch({ uri })
+const fetch = createApolloFetch({ uri: GRAPHQL_URI })
 
 class PlantDetail extends React.Component {
 
@@ -55,30 +54,30 @@ class PlantDetail extends React.Component {
     }
 
     onSelect(e) {
-      var selectedDate = new Date(e)
-      var last = this.state.lastSelected
+        var selectedDate = new Date(e)
+        var last = this.state.lastSelected
 
-      if(selectedDate.getTime() <= last.getTime()) {
+        if (selectedDate.getTime() <= last.getTime()) {
+            this.setState({
+                dateFrom: selectedDate,
+                dateTo: last
+            })
+        } else {
+            this.setState({
+                dateFrom: last,
+                dateTo: selectedDate
+            })
+        }
+
         this.setState({
-            dateFrom: selectedDate,
-            dateTo: last
+            lastSelected: selectedDate
         })
-      } else {
-        this.setState({
-            dateFrom: last,
-            dateTo: selectedDate
-        })
-      }
 
-      this.setState({
-        lastSelected: selectedDate
-      })
-
-      this.onHistory()
+        this.onHistory()
     }
 
     loadingStrategy(live) {
-        this.setState({ live: live})
+        this.setState({ live: live })
 
         // if the current plant is loaded
         if (live) {
@@ -156,11 +155,11 @@ class PlantDetail extends React.Component {
 
         const query = updatePlantData(this.state.plantId, true)
         const plantStates = await this.fetchData(query)
-            .then(res => res.data.plant.plantStates )
+            .then(res => res.data.plant.plantStates)
 
         console.log(plantStates)
 
-        if(!plantStates || plantStates.length === 0){
+        if (!plantStates || plantStates.length === 0) {
             return
         }
 
@@ -168,7 +167,7 @@ class PlantDetail extends React.Component {
         const size = plantStates.slice(-1).pop().size
 
         const plants = plantStates.filter(state =>
-          this.isInTimeRange(state.sensorDates.timeStamp) )
+            this.isInTimeRange(state.sensorDates.timeStamp))
 
         const timeStamps = plants.map(x => x.sensorDates.timeStamp.substring(11, 19))
 
@@ -223,11 +222,11 @@ class PlantDetail extends React.Component {
     }
 
     isInTimeRange(timeStamp) {
-      var currentTimestamp = new Date(timeStamp)
-      var min = this.state.dateFrom.getTime()
-      var max = this.state.dateTo.getTime()
+        var currentTimestamp = new Date(timeStamp)
+        var min = this.state.dateFrom.getTime()
+        var max = this.state.dateTo.getTime()
 
-      return currentTimestamp.getTime() >= min &&
+        return currentTimestamp.getTime() >= min &&
             currentTimestamp.getTime() <= max
     }
 
@@ -248,47 +247,47 @@ class PlantDetail extends React.Component {
             <center>
                 <div >
                     <Container>
-                    <Segment padded>
-                    <br />
-                        <Grid container columns={3}>
-                            <Grid.Column>
-                            </Grid.Column>
+                        <Segment padded>
+                            <br />
+                            <Grid container columns={3}>
+                                <Grid.Column>
+                                </Grid.Column>
                                 <Grid.Column >
                                     <h1>{this.state.plantName}</h1>
                                 </Grid.Column>
                                 <Grid.Column textAlign='right'>
                                     <Link to='/overview'>
-                                        <Popup trigger={<Icon color='green' name="home" size='large'/>}
-                                            content="Go back to Overview"/>
+                                        <Popup trigger={<Icon color='green' name="home" size='large' />}
+                                            content="Go back to Overview" />
                                     </Link>
                                 </Grid.Column>
-                            </Grid> 
-                        <br />
-                        <Tree heightFactor={this.state.size / 100} />
-                        <br />
-                        <Divider />
+                            </Grid>
+                            <br />
+                            <Tree heightFactor={this.state.size / 100} />
+                            <br />
+                            <Divider />
 
-                          { this.state.live &&
-                            <Button.Group>
-                                <Button color="green" onClick={() => { this.loadingStrategy(true) }}>live data</Button>
-                                <Button.Or />
-                                <Button inverted color="orange" onClick={() => { this.loadingStrategy(false) }}>historical</Button>
-                            </Button.Group>
-                          }
-                          { !this.state.live &&
-                            <Button.Group>
-                                <Button inverted color="green" onClick={() => { this.loadingStrategy(true) }}>live data</Button>
-                                <Button.Or />
-                                <Button color="orange" onClick={() => { this.loadingStrategy(false) }}>historical</Button>
-                            </Button.Group>
-                          }
-                        <br />
-                        <br />
-                        < Healthometer health={Math.floor(this.state.health * 100)} />
-                        <br />
-                        <br />
-                        {!this.state.live &&
-                            <Container >
+                            {this.state.live &&
+                                <Button.Group>
+                                    <Button color="green" onClick={() => { this.loadingStrategy(true) }}>live data</Button>
+                                    <Button.Or />
+                                    <Button inverted color="orange" onClick={() => { this.loadingStrategy(false) }}>historical</Button>
+                                </Button.Group>
+                            }
+                            {!this.state.live &&
+                                <Button.Group>
+                                    <Button inverted color="green" onClick={() => { this.loadingStrategy(true) }}>live data</Button>
+                                    <Button.Or />
+                                    <Button color="orange" onClick={() => { this.loadingStrategy(false) }}>historical</Button>
+                                </Button.Group>
+                            }
+                            <br />
+                            <br />
+                            < Healthometer health={Math.floor(this.state.health * 100)} />
+                            <br />
+                            <br />
+                            {!this.state.live &&
+                                <Container >
                                     <Divider />
                                     <Accordion>
                                         <Accordion.Title active={this.state.activeIndex === 0} index={0} onClick={this.handleClick}>
@@ -297,13 +296,13 @@ class PlantDetail extends React.Component {
                                                     <Grid.Column>
                                                         <h2>FROM </h2>
                                                         {this.state.dateFrom.getDate().toString()}.
-                                                        {(this.state.dateFrom.getMonth()+1).toString()}.
+                                                        {(this.state.dateFrom.getMonth() + 1).toString()}.
                                                         {this.state.dateFrom.getFullYear().toString()}
                                                     </Grid.Column>
                                                     <Grid.Column>
                                                         <h2>TO </h2>
                                                         {this.state.dateTo.getDate().toString()}.
-                                                        {(this.state.dateTo.getMonth()+1).toString()}.
+                                                        {(this.state.dateTo.getMonth() + 1).toString()}.
                                                         {this.state.dateTo.getFullYear().toString()}
                                                     </Grid.Column>
                                                 </Grid.Row>
@@ -313,29 +312,29 @@ class PlantDetail extends React.Component {
                                         <Accordion.Content active={this.state.activeIndex === 0}>
                                             <Calendar onSelect={this.state.onSelect.bind(this)} />
                                         </Accordion.Content>
-                                    </Accordion> 
-                                    <br />    
-                            </ Container>
-                        }
-                        {this.state.live && sessionStorage.loadedPlantId !== this.state.plantId &&
-                            <ErrorMessage header="Not connected!" text="In order to receive live data, please connect to an Arduino!" />
-                        }
-                        <br />
-                        <br />
-                        <Popup trigger={<Icon color='orange' name="thermometer half" size='huge'/>} content= "Temperature" />
-                        < Plot config={this.state.temperature} />
-                        <br />
-                        <Popup trigger={<Icon color='blue' name="tint" size='huge'/>} content= "Humidity" />
-                        < Plot config={this.state.humidity} />
-                        <br />
-                        <Popup trigger={<Icon color='yellow' name="sun" size='huge'/>} content= "Solar Radiation" />
-                        < Plot config={this.state.radiation} />
-                        <br />
-                        <Popup trigger={<Icon color='purple' name="als" size='huge'/>} content= "Loudness" />
-                        < Plot config={this.state.loudness} />
-                        <br />
-                        <br />
-                    </Segment>
+                                    </Accordion>
+                                    <br />
+                                </ Container>
+                            }
+                            {this.state.live && sessionStorage.loadedPlantId !== this.state.plantId &&
+                                <ErrorMessage header="Not connected!" text="In order to receive live data, please connect to an Arduino!" />
+                            }
+                            <br />
+                            <br />
+                            <Popup trigger={<Icon color='orange' name="thermometer half" size='huge' />} content="Temperature" />
+                            < Plot config={this.state.temperature} />
+                            <br />
+                            <Popup trigger={<Icon color='blue' name="tint" size='huge' />} content="Humidity" />
+                            < Plot config={this.state.humidity} />
+                            <br />
+                            <Popup trigger={<Icon color='yellow' name="sun" size='huge' />} content="Solar Radiation" />
+                            < Plot config={this.state.radiation} />
+                            <br />
+                            <Popup trigger={<Icon color='purple' name="als" size='huge' />} content="Loudness" />
+                            < Plot config={this.state.loudness} />
+                            <br />
+                            <br />
+                        </Segment>
                     </Container>
                 </div>
             </center>

@@ -7,10 +7,10 @@ import { plantQuery, createPlant } from '../Utils/queries'
 import '../styles/styles.css'
 import Landingpage from './Landingpage'
 import PlantView from '../Components/PlantView'
+import { GRAPHQL_URI } from '../Utils/config'
 
 // Connecting to Graphql Endpoint
-const uri = 'http://167.99.240.197:8000/graphql'
-const fetch = createApolloFetch({ uri })
+const fetch = createApolloFetch({ uri: GRAPHQL_URI })
 
 export default class Overview extends React.Component {
 
