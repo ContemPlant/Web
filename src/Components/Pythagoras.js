@@ -1,11 +1,10 @@
 import React from "react";
-// import { interpolateViridis } from "d3-scale";
 
 Math.deg = function (radians) {
     return radians * (180 / Math.PI);
 };
 
-// Temporary color implimintation
+// Temporary color implementation
 var red = 255;
 const getRed = function () {
     if (red <= 0) {

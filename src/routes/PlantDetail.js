@@ -325,14 +325,11 @@ class PlantDetail extends React.Component {
                         <Popup trigger={<Icon color='orange' name="thermometer half" size='huge'/>} content= "Temperature" />
                         < Plot config={this.state.temperature} />
                         <br />
-                        <br />
-                        <Popup trigger={<Icon color='blue' name="tint" size='huge'/>} content= "Humudity" />
+                        <Popup trigger={<Icon color='blue' name="tint" size='huge'/>} content= "Humidity" />
                         < Plot config={this.state.humidity} />
-                        <br />
                         <br />
                         <Popup trigger={<Icon color='yellow' name="sun" size='huge'/>} content= "Solar Radiation" />
                         < Plot config={this.state.radiation} />
-                        <br />
                         <br />
                         <Popup trigger={<Icon color='purple' name="als" size='huge'/>} content= "Loudness" />
                         < Plot config={this.state.loudness} />
