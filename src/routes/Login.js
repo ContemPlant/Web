@@ -5,11 +5,11 @@ import Validator from 'validator';
 
 import { loginQuery } from '../Utils/queries'
 import InlineError from '../Components/messages/InlineError'
+import { GRAPHQL_URI } from '../Utils/config'
 
 // Connecting to Graphql Endpoint
-const uri = 'http://167.99.240.197:8000/graphql'
 const fetch = createApolloFetch({
-    uri
+    uri: GRAPHQL_URI
 })
 
 
