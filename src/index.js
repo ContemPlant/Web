@@ -34,10 +34,10 @@ const App = () => (
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/" render={props => <Landingpage {...props} />} />
-                    <Route exact path="/register" render={props => <Register {...props} />} />
-                    <Route exact path="/login" render={props => <Login {...props} />} />
-                    <Route exact path="/detail" render={props => <PlantDetail {...props} />} />
-                    <Route exact path="/overview" render={props => <Overview {...props} />} />
+                    <Route path="/register" render={props => <Register {...props} />} />
+                    <Route path="/login" render={props => <Login {...props} />} />
+                    <Route path="/detail" render={props => <PlantDetail {...props} />} />
+                    <Route path="/overview" render={props => <Overview {...props} />} />
                 </Switch>
             </BrowserRouter>
         </div>
