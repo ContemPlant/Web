@@ -1,90 +1,113 @@
 import React, { Component } from 'react';
-import {createApolloFetch} from 'apollo-fetch';
+import { createApolloFetch } from 'apollo-fetch';
 import { Accordion, Icon, Button, Input } from 'semantic-ui-react';
-import { loadOnArdu } from '../Utils/queries';
+import { loadOnArdu, unloadPlant } from '../Utils/queries';
 import { GRAPHQL_URI } from '../Utils/config'
-
+import { InlineError } from '../Components/messages/InlineError'
 // Connecting to Graphql Endpoint
-const fetch = createApolloFetch({uri: GRAPHQL_URI});
+const fetch = createApolloFetch({ uri: GRAPHQL_URI });
 
 export default class ArduLoader extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      health: this.props.health,
-      activeIndex: 1,
-      plantId: this.props.plantId,
-      plantName: this.props.plantName,
-      arduId: ""
-  	};
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            health: this.props.health,
+            activeIndex: 1,
+            plantId: this.props.plantId,
+            plantName: this.props.plantName,
+            arduId: ""
+        };
+    }
 
-  handleClick = (e, titleProps) => {
-    const { index } = titleProps
-    const { activeIndex } = this.state
-    const newIndex = activeIndex === index ? -1 : index
+    handleClick = (e, titleProps) => {
+        const { index } = titleProps
+        const { activeIndex } = this.state
+        const newIndex = activeIndex === index ? -1 : index
 
-    this.setState({ activeIndex: newIndex })
-}
+        this.setState({ activeIndex: newIndex })
+    }
 
-onChange = (e) => {
- this.setState({
-   [e.target.name]: e.target.value,
- });
-}
+    onChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value,
+        });
+    }
 
-onArduLoad = async (e) => {
+    onArduLoad = async (e) => {
 
-  try{
-      fetch.use(({
-        request,
-        options
-      }, next) => {
-        if (!options.headers) {
-              options.headers = {}; // Create the headers object if needed.
+        try {
+            fetch.use(({
+                request,
+                options
+            }, next) => {
+                if (!options.headers) {
+                    options.headers = {}; // Create the headers object if needed.
+                }
+                options.headers['authorization'] = "Bearer " + sessionStorage.jwt
+
+                next();
+            });
+
+            // Fetching query
+            fetch({
+                query: loadOnArdu(this.state.arduId, this.state.plantId),
+            }).then(res => {
+
+                if (res.errors) {
+                    alert(res.errors[0].message)
+                }
+                console.log(res);
+                sessionStorage.arduId = this.state.arduId;
+                sessionStorage.loadedPlantId = this.state.plantId;
+                sessionStorage.loadedPlantName = this.state.plantName;
+
+            });
+        } catch (e) {
+            console.log(e.message);
+        }
+
+    }
+
+    onArduUnload() {
+        const { plantId } = this.state
+
+        fetch.use(({
+            request,
+            options
+        }, next) => {
+            if (!options.headers) {
+                options.headers = {}; // Create the headers object if needed.
             }
             options.headers['authorization'] = "Bearer " + sessionStorage.jwt
 
             next();
-          });
+        });
 
-    // Fetching query
-fetch({
-query: loadOnArdu(this.state.arduId, this.state.plantId),
-}).then(res => {
+        // Fetching query
+        fetch({ query: unloadPlant(plantId) }).then(console.log)
+    }
 
-console.log(res);
-sessionStorage.arduId = this.state.arduId;
-sessionStorage.loadedPlantId = this.state.plantId;
-sessionStorage.loadedPlantName = this.state.plantName;
+    render() {
 
-});
-} catch (e) {
-console.log(e.message);
-}
+        const { activeIndex } = this.state;
 
-}
-
-	render() {
-
-    const { activeIndex } = this.state;
-
-		return (
-			<div>
-      <Accordion>
-      <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick}>
-        <Icon name='angle double down' />
-        Connect your plant
+        return (
+            <div>
+                <Accordion>
+                    <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick}>
+                        <Icon name='angle double down' />
+                        Connect your plant
       </Accordion.Title>
-      <Accordion.Content active={activeIndex === 0}>
-        <Input name="arduId" placeholder="Arduino ID" onChange={ e=> this.onChange(e) } value = { this.state.arduId }/>
-        <br/>
-        <br/>
-        <Button primary onClick={ e => this.onArduLoad(e)} > connect </Button>
-      </Accordion.Content>
-      </Accordion>
-			</div>
-		);
-	}
+                    <Accordion.Content active={activeIndex === 0}>
+                        <Input name="arduId" placeholder="Arduino ID" onChange={e => this.onChange(e)} value={this.state.arduId} />
+                        <br />
+                        <br />
+                        <Button primary onClick={e => this.onArduLoad(e)} > connect </Button>
+                        <Button primary onClick={e => this.onArduUnload(e)}> disconnect </Button>
+                    </Accordion.Content>
+                </Accordion>
+            </div>
+        );
+    }
 }

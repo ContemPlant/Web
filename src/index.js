@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient, createNetworkInterface } from 'react-apollo';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 
 import logo from './styles/logo.svg';
 import Login from './routes/Login';
@@ -31,7 +31,7 @@ const App = () => (
                     <h1 className="HomePage-title"><span>Contem</span>Plant</h1>
                 </header>
             </center>
-            <BrowserRouter>
+            <HashRouter>
                 <Switch>
                     <Route exact path="/" render={props => <Landingpage {...props} />} />
                     <Route path="/register" render={props => <Register {...props} />} />
@@ -39,7 +39,7 @@ const App = () => (
                     <Route path="/detail" render={props => <PlantDetail {...props} />} />
                     <Route path="/overview" render={props => <Overview {...props} />} />
                 </Switch>
-            </BrowserRouter>
+            </HashRouter>
         </div>
     </ApolloProvider>
 );
