@@ -82,10 +82,19 @@ function loadOnArdu(arduId, plantId) {
     }`
 }
 
+function unloadPlant(plantId) {
+    return `mutation {
+            unloadPlant(
+            plantId: "${plantId}"
+        ) { arduId }
+    }`
+}
+
 export {
     loginQuery,
     plantQuery,
     createPlant,
     updatePlantData,
-    loadOnArdu
+    loadOnArdu,
+    unloadPlant
 }
