@@ -46,8 +46,8 @@ class PlantDetail extends React.Component {
             radOpt: sessionStorage.radOpt,
             live: false,
             onSelect: this.onSelect.bind(this),
-            dateFrom: new Date(),
-            dateTo: new Date(),
+            dateFrom: new Date(2018, 0, 1),
+            dateTo: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
             lastSelected: new Date(),
             activeIndex: 1
         }
@@ -55,6 +55,8 @@ class PlantDetail extends React.Component {
 
     onSelect(e) {
         var selectedDate = new Date(e)
+        selectedDate.setHours(23)
+        selectedDate.setMinutes(59)
         var last = this.state.lastSelected
 
         if (selectedDate.getTime() <= last.getTime()) {
@@ -168,6 +170,10 @@ class PlantDetail extends React.Component {
 
         const plants = plantStates.filter(state =>
             this.isInTimeRange(state.sensorDates.timeStamp))
+
+        console.log('plants:', plants)
+        console.log('FROM:', this.state.dateFrom.getTime())
+        console.log('TO:', this.state.dateTo)
 
         const timeStamps = plants.map(x => x.sensorDates.timeStamp.substring(11, 19))
 
