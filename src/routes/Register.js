@@ -37,6 +37,9 @@ class Register extends React.Component {
                 sessionStorage.username = response.data.signup.user.username
                 sessionStorage.jwt = response.data.signup.token
                 this.props.history.push("/overview")
+
+                //notify the "native" app
+                window.postMessage(`login|email:${this.state.data.email},username:${response.data.signup.user.username},jwt:${response.data.signup.token}`, "*")
             } catch (e) {
                 console.log(e.message);
                 this.setState({ loading: false })

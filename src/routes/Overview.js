@@ -106,6 +106,9 @@ export default class Overview extends React.Component {
     onLogout(e) {
         sessionStorage.clear()
         this.props.history.push('/')
+
+        //notify the "native" app
+        window.postMessage(`logout|`, "*")
     }
 
     // Render function of module

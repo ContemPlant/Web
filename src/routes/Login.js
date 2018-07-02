@@ -53,6 +53,10 @@ export default class Login extends React.Component {
             sessionStorage.email = this.state.data.email
             sessionStorage.username = res.data.login.user.username
             sessionStorage.jwt = res.data.login.token
+            
+            //notify the "native" app
+            window.postMessage(`login|email:${this.state.email},username:${res.data.login.user.username},jwt:${res.data.login.token}`, "*")
+
             this.props.history.push("/overview")
           })
           .catch(errorMsg => {
