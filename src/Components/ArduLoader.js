@@ -26,6 +26,10 @@ export default class ArduLoader extends Component {
         const newIndex = activeIndex === index ? -1 : index
 
         this.setState({ activeIndex: newIndex })
+        
+         //notify the "native" app
+        window.postMessage(`loadOnArdu|plantID:${this.state.plantId},plantName:${this.state.plantName}`, "*")
+
     }
 
     onChange = (e) => {
